@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { createMaterialTopTabNavigator } from 'react-navigation'
 import { ExpoConfigView } from '@expo/samples';
-import { Container, Header, Tab, Tabs, ScrollableTab } from 'native-base';
-import FacebookTabBar from './FacebookTabBar'
 
 export default createMaterialTopTabNavigator({
     tab1: ExpoConfigView,
@@ -10,6 +8,6 @@ export default createMaterialTopTabNavigator({
     tab3: ExpoConfigView,
 }, {
     lazy: true,
-    initialRouteName: 'tab2',
+    initialRouteName: 'tab1',
     animationEnabled: false
 })

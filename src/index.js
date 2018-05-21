@@ -1,14 +1,18 @@
 import React from 'react';
+import { create } from 'dva-core';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
-import Enhance from './components/TwitterEnhance'
+import Enhance from './components/TwitterEnhance';
+const app = create({
+    initialState: {},
+});
+app.model(require('./models/app').default);
+app.start();
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
-
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (

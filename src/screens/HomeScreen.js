@@ -9,13 +9,22 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
+import { Avatar, Pen } from '../components/HomeWidget';
 
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = (props) => {
+    const { openDrawer } = props.navigation;
+    return {
+        title: '主页',
+        headerLeft: (
+            <Avatar onPress={() => openDrawer()}/>
+        ),
+        headerRight: (
+            <Pen />
+        )
+    }
   };
 
   render() {

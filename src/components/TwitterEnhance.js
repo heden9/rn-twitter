@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Animated, StyleSheet, Easing } from "react-native";
-import PropTypes from "prop-types";
 import { Icon } from "native-base";
 import Layout from "../constants/Layout";
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);

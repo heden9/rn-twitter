@@ -8,7 +8,7 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/icon2.png",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
@@ -22,6 +22,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "transformer": "node_modules/react-native-typescript-transformer/index.js"
   }
 }

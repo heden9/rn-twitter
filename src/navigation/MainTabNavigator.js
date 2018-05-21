@@ -1,40 +1,80 @@
 import React from "react";
-import { Platform } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
-// import { createMaterialBottomTabNavigator as createBottomTabNavigator } from "react-navigation-material-bottom-tabs";
-import TabBarIcon from "../components/TwitterIcon";
+import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator } from "react-navigation";
+import Colors from '../constants/Colors';
+import TabBottom from '../components/TabBottom';
+import { TwitterIcon } from "../components/HomeWidget";
 import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
 const createTabScreen = (name, screen, icon) => {
+
+  if (screen.navigationOptions instanceof Function) {
+    const _tmp = screen.navigationOptions;
+    screen.navigationOptions = (props) => ({
+      ..._tmp(props),
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.borderColor,
+      }
+    })
+  } else {
+    screen.navigationOptions = {
+      ...screen.navigationOptions,
+      headerStyle: {
+        backgroundColor: Colors.tabBar,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.borderColor,
+      }
+    };
+  }
   const TabStackScreen = createStackNavigator({
     [name]: screen
+  }, {
+
   });
   TabStackScreen.navigationOptions = {
     tabBarLabel: name,
     tabBarIcon: ({ focused }) => (
-      <TabBarIcon selected={focused} name={`${icon}${focused ? "-o" : ""}`} />
-    ),
-    tabBarOptions: {
-      showLabel: false
-    }
+      <TwitterIcon selected={focused} name={`${icon}${focused ? "-o" : ""}`} />
+    )
   };
   return TabStackScreen;
 };
 
-export default createBottomTabNavigator(
+const BottomTabs = createBottomTabNavigator(
   {
     HomeStack: createTabScreen("主页", HomeScreen, "home"),
-    LinksStack: createTabScreen("搜索", LinksScreen, "search"),
-    SettingsStack: createTabScreen("私信", SettingsScreen, "n")
+    SearchStack: createTabScreen("搜索", LinksScreen, "search"),
+    SettingsStack: createTabScreen("通知", SettingsScreen, "n"),
+    LetterStack: createTabScreen("私信", SettingsScreen, "letter"),
   },
   {
     shifting: false,
+    tabBarComponent: TabBottom,
     // activeTintColor: '#F44336',
     tabBarOptions: {
-      showLabel: false
+      showLabel: false,
+      style: {
+        backgroundColor: Colors.tabBar,
+        borderTopWidth: 1,
+        borderTopColor: Colors.borderColor,
+      },
     }
   }
 );
+const TabsInDrawer = createDrawerNavigator({
+  SimpleTabs: {
+    screen: BottomTabs,
+    navigationOptions: {
+      drawer: () => ({
+        label: 'Simple Tabs'
+      }),
+    },
+  }
+});
+// createStackNavigator({
+//   drawer: TabsInDrawer
+// })
+export default TabsInDrawer
