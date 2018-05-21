@@ -14,7 +14,7 @@ import { Avatar, Pen } from '../components/HomeWidget';
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = (props) => {
+  static navigationOptions = (props: any) => {
     const { openDrawer } = props.navigation;
     return {
         title: '主页',

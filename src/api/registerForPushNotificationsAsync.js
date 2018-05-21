@@ -1,9 +1,8 @@
-import { Constants, Permissions, Notifications } from 'expo';
+import { Constants, Permissions, Notifications } from "expo";
 
 // Example server, implemented in Rails: https://git.io/vKHKv
-const PUSH_ENDPOINT = 'https://expo-push-server.herokuapp.com/tokens';
-
-export default (async function registerForPushNotificationsAsync() {
+const PUSH_ENDPOINT = "https://expo-push-server.herokuapp.com/tokens";
+async function registerForPushNotificationsAsync() {
   // Remote notifications do not work in simulators, only on device
   if (!Constants.isDevice) {
     return;
@@ -14,7 +13,7 @@ export default (async function registerForPushNotificationsAsync() {
   let { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
 
   // Stop here if the user did not grant permissions
-  if (status !== 'granted') {
+  if (status !== "granted") {
     return;
   }
 
@@ -23,15 +22,16 @@ export default (async function registerForPushNotificationsAsync() {
 
   // POST the token to our backend so we can use it to send pushes from there
   return fetch(PUSH_ENDPOINT, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       token: {
-        value: token,
-      },
-    }),
+        value: token
+      }
+    })
   });
-});
+}
+export default registerForPushNotificationsAsync

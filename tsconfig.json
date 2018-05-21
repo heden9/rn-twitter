@@ -1,32 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "outDir": "build/dist",
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "lib": ["dom", "es2015", "es2016"],
+    "target": "es2015",
+    "module": "es2015",
+    "jsx": "react-native",
+    "outDir": "./build/dist",
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "strict": true,
-    "noImplicitReturns": true
-    //"allowJs": true,
-    //"inlineSourceMap": true,
-    //"sourceRoot": "src",
-    //"watch": true.
-    //"noUnusedLocals": true
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "allowJs": false,
+    "sourceMap": true
   },
   "exclude": [
+    "index.android.js",
+    "index.ios.js",
+    "./build",
     "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
+    "__tests__"
   ],
-  "types": ["typePatches"]
+  "compileOnSave": true
 }

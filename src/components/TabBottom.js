@@ -1,27 +1,22 @@
 import React from "react";
-import {
-  Animated,
-  StyleSheet,
-  View,
-  Platform
-} from "react-native";
+import { Animated, StyleSheet, View, Platform } from "react-native";
 import SafeAreaView from "react-native-safe-area-view";
-import TouchableBounce from 'react-native-touchable-bounce';
+import TouchableBounce from "react-native-touchable-bounce";
 import CrossFadeIcon from "react-navigation-tabs/dist/views/CrossFadeIcon";
 import withDimensions from "react-navigation-tabs/dist/utils/withDimensions";
 
 const majorVersion = parseInt(Platform.Version, 10);
-const isIos = Platform.OS === 'ios';
+const isIos = Platform.OS === "ios";
 const isIOS11 = majorVersion >= 11 && isIos;
 
 const DEFAULT_MAX_TAB_ITEM_WIDTH = 125;
 
 class TabBarBottom extends React.Component {
   static defaultProps = {
-    activeTintColor: '#3478f6', // Default active tint color in iOS 10
-    activeBackgroundColor: 'transparent',
-    inactiveTintColor: '#929292', // Default inactive tint color in iOS 10
-    inactiveBackgroundColor: 'transparent',
+    activeTintColor: "#3478f6", // Default active tint color in iOS 10
+    activeBackgroundColor: "transparent",
+    inactiveTintColor: "#929292", // Default inactive tint color in iOS 10
+    inactiveBackgroundColor: "transparent",
     showLabel: true,
     showIcon: true,
     allowFontScaling: true,
@@ -45,13 +40,27 @@ class TabBarBottom extends React.Component {
     const label = this.props.getLabelText({ route });
     const tintColor = focused ? activeTintColor : inactiveTintColor;
 
-    if (typeof label === 'string') {
-      return <Animated.Text numberOfLines={1} style={[styles.label, { color: tintColor }, showIcon && this._shouldUseHorizontalLabels() ? styles.labelBeside : styles.labelBeneath, styles.labelBeneath, labelStyle]} allowFontScaling={allowFontScaling}>
+    if (typeof label === "string") {
+      return (
+        <Animated.Text
+          numberOfLines={1}
+          style={[
+            styles.label,
+            { color: tintColor },
+            showIcon && this._shouldUseHorizontalLabels()
+              ? styles.labelBeside
+              : styles.labelBeneath,
+            styles.labelBeneath,
+            labelStyle
+          ]}
+          allowFontScaling={allowFontScaling}
+        >
           {label}
-        </Animated.Text>;
+        </Animated.Text>
+      );
     }
 
-    if (typeof label === 'function') {
+    if (typeof label === "function") {
       return label({ route, focused, tintColor });
     }
 
@@ -76,7 +85,22 @@ class TabBarBottom extends React.Component {
     const activeOpacity = focused ? 1 : 0;
     const inactiveOpacity = focused ? 0 : 1;
 
-    return <CrossFadeIcon route={route} navigation={navigation} activeOpacity={activeOpacity} inactiveOpacity={inactiveOpacity} activeTintColor={activeTintColor} inactiveTintColor={inactiveTintColor} renderIcon={renderIcon} style={[styles.iconWithExplicitHeight, showLabel === false && !horizontal && styles.iconWithoutLabel, showLabel !== false && !horizontal && styles.iconWithLabel]} />;
+    return (
+      <CrossFadeIcon
+        route={route}
+        navigation={navigation}
+        activeOpacity={activeOpacity}
+        inactiveOpacity={inactiveOpacity}
+        activeTintColor={activeTintColor}
+        inactiveTintColor={inactiveTintColor}
+        renderIcon={renderIcon}
+        style={[
+          styles.iconWithExplicitHeight,
+          showLabel === false && !horizontal && styles.iconWithoutLabel,
+          showLabel !== false && !horizontal && styles.iconWithLabel
+        ]}
+      />
+    );
   };
 
   _shouldUseHorizontalLabels = () => {
@@ -93,9 +117,9 @@ class TabBarBottom extends React.Component {
       const flattenedStyle = StyleSheet.flatten(tabStyle);
 
       if (flattenedStyle) {
-        if (typeof flattenedStyle.width === 'number') {
+        if (typeof flattenedStyle.width === "number") {
           maxTabItemWidth = flattenedStyle.width;
-        } else if (typeof flattenedStyle.maxWidth === 'number') {
+        } else if (typeof flattenedStyle.maxWidth === "number") {
           maxTabItemWidth = flattenedStyle.maxWidth;
         }
       }
@@ -119,26 +143,53 @@ class TabBarBottom extends React.Component {
 
     const { routes } = navigation.state;
 
-    const tabBarStyle = [styles.tabBar, this._shouldUseHorizontalLabels() && !Platform.isPad ? styles.tabBarCompact : styles.tabBarRegular, style];
+    const tabBarStyle = [
+      styles.tabBar,
+      this._shouldUseHorizontalLabels() && !Platform.isPad
+        ? styles.tabBarCompact
+        : styles.tabBarRegular,
+      style
+    ];
 
-    return <SafeAreaView style={tabBarStyle} forceInset={{ bottom: 'always', top: 'never' }}>
+    return (
+      <SafeAreaView
+        style={tabBarStyle}
+        forceInset={{ bottom: "always", top: "never" }}
+      >
         {routes.map((route, index) => {
-        const focused = index === navigation.state.index;
-        const scene = { route, focused };
+          const focused = index === navigation.state.index;
+          const scene = { route, focused };
 
-        const backgroundColor = focused ? activeBackgroundColor : inactiveBackgroundColor;
+          const backgroundColor = focused
+            ? activeBackgroundColor
+            : inactiveBackgroundColor;
 
-        return <TouchableBounce style={styles.tab} key={route.key} onPress={() => {
-          jumpTo(route.key);
-          onTabPress({ route });
-        }}>
-              <View style={[{ backgroundColor }, this._shouldUseHorizontalLabels() ? styles.tabLandscape : styles.tabPortrait, tabStyle]}>
+          return (
+            <TouchableBounce
+              style={styles.tab}
+              key={route.key}
+              onPress={() => {
+                jumpTo(route.key);
+                onTabPress({ route });
+              }}
+            >
+              <View
+                style={[
+                  { backgroundColor },
+                  this._shouldUseHorizontalLabels()
+                    ? styles.tabLandscape
+                    : styles.tabPortrait,
+                  tabStyle
+                ]}
+              >
                 {this._renderIcon(scene)}
                 {this._renderLabel(scene)}
               </View>
-            </TouchableBounce>;
-      })}
-      </SafeAreaView>;
+            </TouchableBounce>
+          );
+        })}
+      </SafeAreaView>
+    );
   }
 }
 
@@ -147,10 +198,10 @@ const COMPACT_HEIGHT = 29;
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#F7F7F7', // Default background color in iOS 10
+    backgroundColor: "#F7F7F7", // Default background color in iOS 10
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(0, 0, 0, .3)',
-    flexDirection: 'row'
+    borderTopColor: "rgba(0, 0, 0, .3)",
+    flexDirection: "row"
   },
   tabBarCompact: {
     height: COMPACT_HEIGHT
@@ -160,15 +211,15 @@ const styles = StyleSheet.create({
   },
   tab: {
     flex: 1,
-    alignItems: isIos ? 'center' : 'stretch'
+    alignItems: isIos ? "center" : "stretch"
   },
   tabPortrait: {
-    justifyContent: 'flex-end',
-    flexDirection: 'column'
+    justifyContent: "flex-end",
+    flexDirection: "column"
   },
   tabLandscape: {
-    justifyContent: 'center',
-    flexDirection: 'row'
+    justifyContent: "center",
+    flexDirection: "row"
   },
   iconWithoutLabel: {
     flex: 1
@@ -180,8 +231,8 @@ const styles = StyleSheet.create({
     height: Platform.isPad ? DEFAULT_HEIGHT : COMPACT_HEIGHT
   },
   label: {
-    textAlign: 'center',
-    backgroundColor: 'transparent'
+    textAlign: "center",
+    backgroundColor: "transparent"
   },
   labelBeneath: {
     fontSize: 10,

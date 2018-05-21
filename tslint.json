@@ -1,10 +1,4 @@
 {
-  /*
-  * Possible values:
-  * - the name of a built-in config
-  * - the name of an NPM module which has a "main" file that exports a config object
-  * - a relative path to a JSON file
-  */
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "member-access": false,

@@ -1,17 +1,18 @@
-import React from 'react';
-import { create } from 'dva-core';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font } from 'expo';
-import RootNavigation from './navigation/RootNavigation';
-import Enhance from './components/TwitterEnhance';
+import React from "react";
+import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import { AppLoading, Asset, Font } from "expo";
+import RootNavigation from "./navigation/RootNavigation";
+import Enhance from "./components/TwitterEnhance";
+let { create } = require("dva-core");
 const app = create({
-    initialState: {},
+  initialState: {}
 });
-app.model(require('./models/app').default);
+app.model(require("./models/app").default);
 app.start();
+
 export default class App extends React.Component {
   state = {
-    isLoadingComplete: false,
+    isLoadingComplete: false
   };
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -25,15 +26,15 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <Enhance/>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <Enhance />
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
           <RootNavigation />
         </View>
       );
     }
   }
 
-  _loadResourcesAsync = async () => {
+  _loadResourcesAsync = () => {
     return Promise.all([
       Asset.loadAsync([
         // require('./assets/images/robot-dev.png'),
@@ -45,12 +46,12 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         // 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        'icomoon': require('./assets/fonts/icomoon.ttf')
-      }),
+        icomoon: require("./assets/fonts/icomoon.ttf")
+      })
     ]);
   };
 
-  _handleLoadingError = error => {
+  _handleLoadingError = (error) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);
@@ -64,6 +65,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
