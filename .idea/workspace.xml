@@ -2,20 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4a3d1aa-3b99-45de-ad6a-5ab12c58f1eb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/TabBottom.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/TwitterIcon.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/screens/FacebookTabBar.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/fonts/icomoon.ttf" afterPath="$PROJECT_DIR$/src/assets/fonts/icomoon.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.json" afterPath="$PROJECT_DIR$/app.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tsconfig.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslint.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/HomeWidget.js" afterPath="$PROJECT_DIR$/src/components/HomeWidget.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/StyledText.js" afterPath="$PROJECT_DIR$/src/components/StyledText.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/TabBarIcon.js" afterPath="$PROJECT_DIR$/src/components/TabBarIcon.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/TabBottom.js" afterPath="$PROJECT_DIR$/src/components/TabBottom.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/TwitterEnhance.js" afterPath="$PROJECT_DIR$/src/components/TwitterEnhance.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/constants/Colors.js" afterPath="$PROJECT_DIR$/src/constants/Colors.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/constants/Layout.js" afterPath="$PROJECT_DIR$/src/constants/Layout.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/navigation/MainTabNavigator.js" afterPath="$PROJECT_DIR$/src/navigation/MainTabNavigator.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/navigation/RootNavigation.js" afterPath="$PROJECT_DIR$/src/navigation/RootNavigation.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/screens/HomeScreen.js" afterPath="$PROJECT_DIR$/src/screens/HomeScreen.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/screens/LinksScreen.js" afterPath="$PROJECT_DIR$/src/screens/LinksScreen.tsx" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/screens/SettingsScreen.js" afterPath="$PROJECT_DIR$/src/screens/SettingsScreen.tsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/fonts/config.json" afterPath="$PROJECT_DIR$/src/assets/fonts/config.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/TwitterEnhance.js" afterPath="$PROJECT_DIR$/src/components/TwitterEnhance.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constants/Colors.js" afterPath="$PROJECT_DIR$/src/constants/Colors.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/navigation/MainTabNavigator.js" afterPath="$PROJECT_DIR$/src/navigation/MainTabNavigator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/screens/HomeScreen.js" afterPath="$PROJECT_DIR$/src/screens/HomeScreen.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/screens/LinksScreen.js" afterPath="$PROJECT_DIR$/src/screens/LinksScreen.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/screens/SettingsScreen.js" afterPath="$PROJECT_DIR$/src/screens/SettingsScreen.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,60 +33,77 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LinksScreen.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/LinksScreen.js">
+      <file leaf-file-name="HomeWidget.tsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/HomeWidget.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="266">
+              <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <marker date="1526824532836" expanded="true" signature="7:292" ph="..." />
+                <marker date="1526824532836" expanded="true" signature="396:634" ph="{...}" />
+                <marker date="1526824532836" expanded="true" signature="496:625" ph="&lt;Icon/&gt;" />
+                <marker date="1526824532836" expanded="true" signature="687:928" ph="{...}" />
+                <marker date="1526824532836" expanded="true" signature="700:777" ph="{&quot;resizeMode&quot;: 'contain'...}" />
+                <marker date="1526824532836" expanded="true" signature="791:879" ph="{&quot;marginLeft&quot;: margin...}" />
+                <marker date="1526824532836" expanded="true" signature="890:926" ph="{&quot;marginRight&quot;: margin...}" />
+                <marker date="1526824532836" expanded="true" signature="998:1257" ph="{...}" />
+                <marker date="1526824532836" expanded="true" signature="1021:1249" ph="&lt;TouchableHighlight/&gt;" />
+                <marker date="1526824532836" expanded="true" signature="1299:1548" ph="{...}" />
+                <marker date="1526824532836" expanded="true" signature="1322:1540" ph="&lt;TouchableOpacity/&gt;" />
+                <marker date="1526824532836" expanded="true" signature="1390:1512" ph="&lt;Icon/&gt;" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HomeScreen.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/screens/HomeScreen.js">
+      <file leaf-file-name=".babelrc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.babelrc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
-              <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainTabNavigator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/navigation/MainTabNavigator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TwitterEnhance.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/TwitterEnhance.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="60">
+              <caret line="4" column="77" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="77" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HomeWidget.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/HomeWidget.js">
+      <file leaf-file-name="MainTabNavigator.tsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/navigation/MainTabNavigator.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+            <state relative-caret-position="45">
+              <caret line="3" column="48" lean-forward="false" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RootNavigation.tsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/navigation/RootNavigation.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Layout.tsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/constants/Layout.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.tsx" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/index.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="86">
+              <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,38 +118,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="25" column="78" lean-forward="false" selection-start-line="25" selection-start-column="78" selection-end-line="25" selection-end-column="78" />
+            <state relative-caret-position="149">
+              <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="icon.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/assets/images/icon.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TabBottom.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/TabBottom.js">
+      <file leaf-file-name="tsconfig.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tsconfig.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="94">
+              <caret line="19" column="22" lean-forward="false" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Colors.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/constants/Colors.js">
+      <file leaf-file-name="tslint.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tslint.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="17" />
+            <state relative-caret-position="165">
+              <caret line="11" column="3" lean-forward="false" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -165,6 +178,9 @@
         <option value="$PROJECT_DIR$/src/components/HomeWidget.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/app.json" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/tslint.json" />
+        <option value="$PROJECT_DIR$/src/navigation/MainTabNavigator.tsx" />
       </list>
     </option>
   </component>
@@ -264,26 +280,6 @@
               <item name="rn-demo" type="b2602c69:ProjectViewProjectNode" />
               <item name="rn-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="rn-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="rn-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="fonts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="rn-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="rn-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="rn-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="rn-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -359,17 +355,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1526816563441</updated>
-      <workItem from="1526816567257" duration="7594000" />
+      <workItem from="1526816567257" duration="8558000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7594000" />
+    <option name="totallyTimeSpent" value="8558000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="707" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -400,26 +397,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.babelrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-            <element signature="e#408#1878#0" expanded="false" />
-            <element signature="e#1913#1978#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/FacebookTabBar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -436,23 +413,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/navigation/RootNavigation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="41" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/StyledText.js">
+    <entry file="file://$PROJECT_DIR$/src/components/StyledText.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -466,31 +431,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/constants/Layout.js">
+    <entry file="file://$PROJECT_DIR$/src/screens/SettingsScreen.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="195">
+          <caret line="13" column="1" lean-forward="false" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/SettingsScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="1" lean-forward="false" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/LinksScreen.js">
+    <entry file="file://$PROJECT_DIR$/src/screens/LinksScreen.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -518,17 +471,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/navigation/MainTabNavigator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TwitterEnhance.js">
+    <entry file="file://$PROJECT_DIR$/src/components/TwitterEnhance.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
@@ -536,7 +479,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TabBottom.js">
+    <entry file="file://$PROJECT_DIR$/src/components/TabBottom.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
@@ -544,7 +487,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/constants/Colors.js">
+    <entry file="file://$PROJECT_DIR$/src/constants/Colors.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="17" />
@@ -552,23 +495,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screens/HomeScreen.js">
+    <entry file="file://$PROJECT_DIR$/src/screens/HomeScreen.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6">
           <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <marker date="1526824341458" expanded="true" signature="7:288" ph="..." />
+            <marker date="1526824341458" expanded="true" signature="346:3273" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="388:615" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="446:611" ph="{&quot;title&quot;: '主页'...}" />
+            <marker date="1526824341458" expanded="true" signature="629:2332" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="650:2321" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="690:1948" ph="&lt;ScrollView/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="786:1106" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="837:1088" ph="&lt;Image/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1117:1649" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1307:1490" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1504:1631" ph="&lt;Text/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1661:1926" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1709:1908" ph="&lt;TouchableOpacity/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="1958:2307" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="2103:2291" ph="&lt;View/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="2373:2964" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="2392:2781" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="2434:2542" ph="&lt;Text/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="2576:2766" ph="&lt;Text/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="2787:2960" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="2812:2945" ph="&lt;Text/&gt;" />
+            <marker date="1526824341458" expanded="true" signature="2998:3100" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="3130:3270" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="3308:4952" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="3323:3370" ph="{&quot;backgroundColor&quot;: '##fff'...}" />
+            <marker date="1526824341458" expanded="true" signature="3395:3515" ph="{&quot;color&quot;: 'rgba(0,0,0,0.4)'...}" />
+            <marker date="1526824341458" expanded="true" signature="3537:3562" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="3584:3656" ph="{&quot;alignItems&quot;: 'center'...}" />
+            <marker date="1526824341458" expanded="true" signature="3674:3777" ph="{&quot;resizeMode&quot;: 'contain'...}" />
+            <marker date="1526824341458" expanded="true" signature="3802:3859" ph="{&quot;alignItems&quot;: 'center'...}" />
+            <marker date="1526824341458" expanded="true" signature="3883:3911" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="3934:3975" ph="{&quot;color&quot;: 'rgba(96,100,109, 0.8)'...}" />
+            <marker date="1526824341458" expanded="true" signature="4003:4096" ph="{&quot;backgroundColor&quot;: 'rgba(0,0,0,0.05)'...}" />
+            <marker date="1526824341458" expanded="true" signature="4116:4218" ph="{&quot;color&quot;: 'rgba(96,100,109, 1)'...}" />
+            <marker date="1526824341458" expanded="true" signature="4243:4624" ph="{&quot;position&quot;: 'absolute'...}" />
+            <marker date="1526824341458" expanded="true" signature="4336:4535" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="4349:4479" ph="{&quot;shadowColor&quot;: 'black'...}" />
+            <marker date="1526824341458" expanded="true" signature="4496:4528" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="4644:4726" ph="{&quot;color&quot;: 'rgba(96,100,109, 1)'...}" />
+            <marker date="1526824341458" expanded="true" signature="4750:4773" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="4792:4842" ph="{&quot;alignItems&quot;: 'center'...}" />
+            <marker date="1526824341458" expanded="true" signature="4856:4886" ph="{...}" />
+            <marker date="1526824341458" expanded="true" signature="4904:4949" ph="{&quot;color&quot;: '##2e78b7'...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/HomeWidget.js">
+    <entry file="file://$PROJECT_DIR$/src/assets/images/icon.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="149">
+          <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tslint.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="3" lean-forward="false" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="19" column="22" lean-forward="false" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -580,15 +585,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/images/icon.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+    <entry file="file://$PROJECT_DIR$/src/components/HomeWidget.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="24" column="34" lean-forward="false" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+          <folding>
+            <marker date="1526824532836" expanded="true" signature="7:292" ph="..." />
+            <marker date="1526824532836" expanded="true" signature="396:634" ph="{...}" />
+            <marker date="1526824532836" expanded="true" signature="496:625" ph="&lt;Icon/&gt;" />
+            <marker date="1526824532836" expanded="true" signature="687:928" ph="{...}" />
+            <marker date="1526824532836" expanded="true" signature="700:777" ph="{&quot;resizeMode&quot;: 'contain'...}" />
+            <marker date="1526824532836" expanded="true" signature="791:879" ph="{&quot;marginLeft&quot;: margin...}" />
+            <marker date="1526824532836" expanded="true" signature="890:926" ph="{&quot;marginRight&quot;: margin...}" />
+            <marker date="1526824532836" expanded="true" signature="998:1257" ph="{...}" />
+            <marker date="1526824532836" expanded="true" signature="1021:1249" ph="&lt;TouchableHighlight/&gt;" />
+            <marker date="1526824532836" expanded="true" signature="1299:1548" ph="{...}" />
+            <marker date="1526824532836" expanded="true" signature="1322:1540" ph="&lt;TouchableOpacity/&gt;" />
+            <marker date="1526824532836" expanded="true" signature="1390:1512" ph="&lt;Icon/&gt;" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.json">
+    <entry file="file://$PROJECT_DIR$/.babelrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="25" column="78" lean-forward="false" selection-start-line="25" selection-start-column="78" selection-end-line="25" selection-end-column="78" />
+        <state relative-caret-position="60">
+          <caret line="4" column="77" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/react-navigation/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-386">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/navigation/MainTabNavigator.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="48" lean-forward="false" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/navigation/RootNavigation.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constants/Layout.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
           <folding />
         </state>
       </provider>

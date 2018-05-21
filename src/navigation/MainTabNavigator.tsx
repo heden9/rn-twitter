@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator } from "react-navigation";
 import Colors from '../constants/Colors';
 import TabBottom from '../components/TabBottom';
