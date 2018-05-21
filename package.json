@@ -1,4 +1,7 @@
 {
+  "name": "rn-twitter",
+  "author": "771854332@qq.com",
+  "license": "MIT",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {

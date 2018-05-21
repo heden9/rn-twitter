@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "rn-demo",
+    "name": "rn-twitter",
     "description": "A very interesting project.",
-    "slug": "rn-demo",
+    "slug": "rn-twitter",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
