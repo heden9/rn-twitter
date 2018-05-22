@@ -21,3 +21,4 @@ declare module 'react-navigation' {
     BottomTabNavigatorConfig?: TabNavigatorConfig
   ): NavigationContainer;
 }
+

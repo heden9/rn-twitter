@@ -1,8 +1,12 @@
 import React from "react";
+import { StyleProvider, Root } from "native-base";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import RootNavigation from "./navigation/RootNavigation";
 import Enhance from "./components/TwitterEnhance";
+import getTheme from "./theme/components";
+import theme from "./theme/variables/commonColor";
+import Colors from "./constants/Colors";
 let { create } = require("dva-core");
 const app = create({
   initialState: {}
@@ -25,11 +29,15 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          <Enhance />
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <RootNavigation />
-        </View>
+        <Root>
+          <StyleProvider style={getTheme(theme)}>
+            <View style={styles.container}>
+              <Enhance />
+              {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+              <RootNavigation />
+            </View>
+          </StyleProvider>
+        </Root>
       );
     }
   }
@@ -51,7 +59,7 @@ export default class App extends React.Component {
     ]);
   };
 
-  _handleLoadingError = (error) => {
+  _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);
@@ -65,6 +73,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: Colors.bgColor
   }
 });

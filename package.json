@@ -21,6 +21,7 @@
     "prop-types": "^15.6.1",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react-native-easy-grid": "^0.1.17",
     "react-native-touchable-bounce": "https://github.com/w771854332/react-native-touchable-bounce.git",
     "react-navigation": "2.0.0",
     "react-navigation-header-buttons": "^1.0.0",
