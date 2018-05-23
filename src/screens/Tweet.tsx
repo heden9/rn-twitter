@@ -25,7 +25,7 @@ export default class Tweet extends React.PureComponent {
         <Header style={{ backgroundColor: '#fff'}}>
           <Left />
           <Right >
-            <Button rounded info>
+            <Button rounded info onPress={() => this.props.navigation.navigate('article')}>
               <Text>发推</Text>
             </Button>
           </Right>

@@ -28,11 +28,11 @@ class Home extends React.Component<HomeProps, IHomeState> {
   static navigationOptions: NavigationScreenConfig<
     NavigationStackScreenOptions
   > = props => {
-    const { openDrawer, push }: any = props.navigation;
+    const { openDrawer, navigate }: any = props.navigation;
     return {
       title: "主页",
       headerLeft: <Avatar onPress={() => openDrawer()} />,
-      headerRight: <TweetEntry onPress={() => push('tweet')}/>
+      headerRight: <TweetEntry onPress={() => navigate('tweet')}/>
     };
   };
   state = {
@@ -50,12 +50,13 @@ class Home extends React.Component<HomeProps, IHomeState> {
   };
   _renderItem = ({ item }: { item: ITimelineItem | any }) => {
     const userInfo = this.props.userMap.get(item.uid);
-    const navigate = () => this.props.navigation.push('article', {
+    const navigate = () => this.props.navigation.navigate('article', {
       uid: item.uid
     });
     return <FeedListItem item={item} userInfo={userInfo} onPress={navigate} />;
   };
   render() {
+    console.log('home render!')
     const { refreshing } = this.state;
     const { timeline } = this.props;
     return (

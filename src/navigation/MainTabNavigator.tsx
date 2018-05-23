@@ -21,7 +21,6 @@ const createTabScreen = (
   icon: string
 ) => {
   const TabStackScreen = createStackNavigator(routeConfigMap, {
-    initialRouteName: icon,
     navigationOptions: {
       headerStyle: {
         backgroundColor: Colors.tabBar,
@@ -32,46 +31,62 @@ const createTabScreen = (
   });
   TabStackScreen.navigationOptions = {
     tabBarLabel: icon,
+    showIcon: true,
     tabBarIcon: ({ focused }: any) => (
       <TwitterIcon selected={focused} name={`${icon}${focused ? "-o" : ""}`} />
     )
   };
   return TabStackScreen;
 };
-
+const HomeStack = createTabScreen(
+  {
+    home: {
+      screen: Home,
+      path: '/'
+    },
+    article: {
+      screen: Article,
+      path: '/article/:id'
+    }
+  },
+  "home"
+);
+const SearchStack = createTabScreen(
+  {
+    search: LinksScreen
+  },
+  "search"
+);
+const SettingsStack = createTabScreen(
+  {
+    n: SettingsScreen
+  },
+  "n"
+);
+const LetterStack = createTabScreen(
+  {
+    letter: SettingsScreen
+  },
+  "letter"
+);
 const BottomTabs = createBottomTabNavigator(
   {
-    HomeStack: createTabScreen(
-      {
-        home: Home,
-        article: Article
-      },
-      "home"
-    ),
-    SearchStack: createTabScreen(
-      {
-        search: LinksScreen
-      },
-      "search"
-    ),
-    SettingsStack: createTabScreen(
-      {
-        n: SettingsScreen
-      },
-      "n"
-    ),
-    LetterStack: createTabScreen(
-      {
-        letter: SettingsScreen
-      },
-      "letter"
-    )
+    HomeStack: {
+      screen: HomeStack,
+      path: '/'
+    },
+    SearchStack,
+    SettingsStack,
+    LetterStack
   },
   {
     tabBarComponent: TabBottom,
     // activeTintColor: '#F44336',
+    animationEnabled: false,
+    swipeEnabled: false,
     tabBarOptions: {
       showLabel: false,
+      showIcon: true,
       style: {
         backgroundColor: Colors.tabBar,
         borderTopWidth: 1,
@@ -96,7 +111,7 @@ export default createStackNavigator(
     tweet: Tweet
   },
   {
-    initialRouteName: "drawer",
+    // initialRouteName: "drawer",
     navigationOptions: {
       header: null
     },

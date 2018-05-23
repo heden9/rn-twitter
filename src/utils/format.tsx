@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
+import { StyleSheet, TouchableHighlight, Platform } from "react-native";
 import Colors from '../constants/Colors'
 import {
   Text,
@@ -20,18 +20,22 @@ const styles = StyleSheet.create({
 })
 type types = 'attention' | 'topic' | 'default';
 const noop = () => {}
-const buttonCreator = (s: string, type: types) => {
+const iosButtonCreator = (s: string, type: types) => {
   return (
     <TouchableHighlight underlayColor={'#eee'} style={{ marginBottom: -3 }} key={s} onPress={noop}>
       <Text style={styles[type]}>{s}</Text>
     </TouchableHighlight>
   )
 }
+const androidButtonCreator = (s: string, type: types) => {
+  return <Text style={styles[type]} key={s} onPress={noop}>{s}</Text>
+}
 export default function Format(source: string): JsxText[] {
   const regx = /(#[0-9a-zA-Z\\u4e00-\\u9fa5\_]+)|(@([^\s|\/|:|@]+))/ig;
   let res
   let start = 0;
   const jsxArr = [];
+  const buttonCreator = Platform.OS === 'ios' ? iosButtonCreator : androidButtonCreator
   while(res = regx.exec(source)) {
     const s = res[0];
     const index = res.index;

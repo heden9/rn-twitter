@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Platform
 } from "react-native";
 import Colors from "../constants/Colors";
 const { Lottie } = require("expo").DangerZone;
@@ -53,20 +54,39 @@ const styles = StyleSheet.create({
     height: 45,
     paddingVertical: 6,
     alignItems: "center",
-    flexDirection: 'row'
+    flexDirection: "row"
+  },
+  toolsBarItem: {
+    flex: 1
   },
   lottieContainer: {
-    position: "relative",
+    // position: "relative",
     height: 20,
-    width: 20,
-    marginTop: -7,
+    width: 20
+    // marginTop: -7,
+    // backgroundColor: 'red',
   },
   lottie: {
     position: "absolute",
-    width: 65,
-    height: 65,
-    top: "-50%",
-    left: "-50%"
+    // top: "-50%",
+    // left: "-50%",
+    ...Platform.select({
+      ios: {
+        width: 65,
+        height: 65,
+        top: -12,
+        left: -11.5
+      },
+      android: {
+        width: 70,
+        height: 70,
+        top: -25,
+        left: -25
+      }
+    })
+  },
+  androidLottie: {
+    position: "absolute"
   },
   like: {
     color: Colors.likeColor
@@ -94,26 +114,32 @@ export function TweetEntry({ onPress = noop }) {
   );
 }
 interface ILikeButtonProps {
-  like_count: string | number,
+  like_count: string | number;
 }
 interface ILikeButtonState {
-  like: boolean,
-  like_count?: number,
+  like: boolean;
+  like_count?: number;
 }
-export class LikeButton extends React.PureComponent<ILikeButtonProps, ILikeButtonState> {
-  static getDerivedStateFromProps(nextProps: ILikeButtonProps, prevState: ILikeButtonState){
+export class LikeButton extends React.PureComponent<
+  ILikeButtonProps,
+  ILikeButtonState
+> {
+  static getDerivedStateFromProps(
+    nextProps: ILikeButtonProps,
+    prevState: ILikeButtonState
+  ) {
     const { like } = prevState;
     const like_count = +nextProps.like_count;
     return {
       ...prevState,
       like_count: like ? like_count + 1 : like_count
-    }
+    };
   }
   animation: React.RefObject<any>;
   state = {
     like: false,
-    like_count: 0,
-  }
+    like_count: 0
+  };
   constructor(props: any) {
     super(props);
     this.animation = React.createRef();
@@ -122,13 +148,13 @@ export class LikeButton extends React.PureComponent<ILikeButtonProps, ILikeButto
     const { like, like_count } = this.state;
     if (like) {
       this.animation.current.reset();
-    }else {
+    } else {
       this.animation.current.play(30, 120);
     }
     this.setState({
       like: !like,
       like_count: !like ? like_count + 1 : +this.props.like_count
-    })
+    });
   };
   render() {
     const { like_count, like } = this.state;
@@ -136,13 +162,11 @@ export class LikeButton extends React.PureComponent<ILikeButtonProps, ILikeButto
     return (
       <TouchableWithoutFeedback onPress={this.toggle}>
         <View style={styles.touchContainer}>
-          {
-            MyLottie({
-              _ref: this.animation,
-              source: require("../assets/lottie/heart.json")
-            })
-          }
-          <RNText style={[styles.toolsText, { marginLeft: 7 }, likeStyle]}>{like_count}</RNText>
+          {MyLottie({
+            _ref: this.animation,
+            source: require("../assets/lottie/heart.json")
+          })}
+          <RNText style={[styles.toolsText, likeStyle]}>{like_count}</RNText>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -153,10 +177,16 @@ interface IMyLottieProps {
   source: string | number;
   _ref?: any;
 }
-export function MyLottie ({ source, _ref }: IMyLottieProps) {
+export function MyLottie({ source, _ref }: IMyLottieProps) {
   return (
     <View style={styles.lottieContainer}>
-      <Lottie loop={false} style={styles.lottie} ref={_ref} source={source} />
+      <Lottie
+        loop={false}
+        style={styles.lottie}
+        ref={_ref}
+        source={source}
+        resizeMode={"cover"}
+      />
     </View>
   );
 }
@@ -174,22 +204,24 @@ export function ToolsBar({ options }: { options: IOptionsItem[] }) {
       {options.map(item => {
         const { onPress = noop } = item;
         return (
-          <View style={{ flex: 1 }} key={item.key}>
+          <View style={styles.toolsBarItem} key={item.key}>
             {item.IconCpt ? (
               React.cloneElement(item.IconCpt, { ...item })
             ) : (
-              <Button onPress={onPress} iconLeft transparent light>
-                {item.icon && (
-                  <Icon
-                    name={item.icon}
-                    size={20}
-                    color={Colors.tabIconDefault}
-                  />
-                )}
-                {item.label && (
-                  <RNText style={styles.toolsText}>{item.label}</RNText>
-                )}
-              </Button>
+              <TouchableWithoutFeedback onPress={onPress}>
+                <View style={styles.touchContainer}>
+                  {item.icon && (
+                    <Icon
+                      name={item.icon}
+                      size={20}
+                      color={Colors.tabIconDefault}
+                    />
+                  )}
+                  {item.label && (
+                    <RNText style={styles.toolsText}>{item.label}</RNText>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
             )}
           </View>
         );

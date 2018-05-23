@@ -170,11 +170,12 @@ class TabBarBottom extends React.Component {
               key={route.key}
               onPress={() => {
                 jumpTo(route.key);
-                onTabPress({ route });
+                // onTabPress({ route });
               }}
             >
               <View
                 style={[
+                  styles.tab,
                   { backgroundColor },
                   this._shouldUseHorizontalLabels()
                     ? styles.tabLandscape
