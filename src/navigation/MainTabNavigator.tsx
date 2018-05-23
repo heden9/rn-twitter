@@ -4,44 +4,34 @@ import {
   createDrawerNavigator,
   createBottomTabNavigator,
   NavigationRouteConfig,
+  NavigationRouteConfigMap
 } from "react-navigation";
 import Colors from "../constants/Colors";
 import { TwitterIcon } from "../components/HomeWidget";
 import Home from "../screens/Home";
+import Article from "../screens/Article";
+import Tweet from "../screens/Tweet";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
 const TabBottom = require("../components/TabBottom").default;
 
-const createTabScreen = (name: string, screen: NavigationRouteConfig, icon: string) => {
-  if (screen.navigationOptions instanceof Function) {
-    const _tmp = screen.navigationOptions;
-    screen.navigationOptions = (props: any) => ({
-      ..._tmp(props),
+const createTabScreen = (
+  routeConfigMap: NavigationRouteConfigMap,
+  icon: string
+) => {
+  const TabStackScreen = createStackNavigator(routeConfigMap, {
+    initialRouteName: icon,
+    navigationOptions: {
       headerStyle: {
         backgroundColor: Colors.tabBar,
         borderBottomWidth: 1,
         borderBottomColor: Colors.borderColor
       }
-    });
-  } else {
-    screen.navigationOptions = {
-      ...screen.navigationOptions,
-      headerStyle: {
-        backgroundColor: Colors.tabBar,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.borderColor
-      }
-    };
-  }
-  const TabStackScreen = createStackNavigator(
-    {
-      [name]: screen
-    },
-    {}
-  );
+    }
+  });
   TabStackScreen.navigationOptions = {
-    tabBarLabel: name,
+    tabBarLabel: icon,
     tabBarIcon: ({ focused }: any) => (
       <TwitterIcon selected={focused} name={`${icon}${focused ? "-o" : ""}`} />
     )
@@ -51,10 +41,31 @@ const createTabScreen = (name: string, screen: NavigationRouteConfig, icon: stri
 
 const BottomTabs = createBottomTabNavigator(
   {
-    HomeStack: createTabScreen("主页", Home, "home"),
-    SearchStack: createTabScreen("搜索", LinksScreen, "search"),
-    SettingsStack: createTabScreen("通知", SettingsScreen, "n"),
-    LetterStack: createTabScreen("私信", SettingsScreen, "letter")
+    HomeStack: createTabScreen(
+      {
+        home: Home,
+        article: Article
+      },
+      "home"
+    ),
+    SearchStack: createTabScreen(
+      {
+        search: LinksScreen
+      },
+      "search"
+    ),
+    SettingsStack: createTabScreen(
+      {
+        n: SettingsScreen
+      },
+      "n"
+    ),
+    LetterStack: createTabScreen(
+      {
+        letter: SettingsScreen
+      },
+      "letter"
+    )
   },
   {
     tabBarComponent: TabBottom,
@@ -79,7 +90,16 @@ const TabsInDrawer = createDrawerNavigator({
     }
   }
 });
-// createStackNavigator({
-//   drawer: TabsInDrawer
-// })
-export default TabsInDrawer;
+export default createStackNavigator(
+  {
+    drawer: TabsInDrawer,
+    tweet: Tweet
+  },
+  {
+    initialRouteName: "drawer",
+    navigationOptions: {
+      header: null
+    },
+    mode: "modal"
+  }
+);

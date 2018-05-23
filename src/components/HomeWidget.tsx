@@ -86,7 +86,7 @@ export function Avatar({ onPress = noop }) {
     </TouchableHighlight>
   );
 }
-export function Pen({ onPress = noop }) {
+export function TweetEntry({ onPress = noop }) {
   return (
     <TouchableOpacity style={styles.pen} onPress={onPress}>
       <Icon name={"pen"} size={26} color={Colors.tabIconSelected} />

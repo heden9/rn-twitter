@@ -5,7 +5,7 @@ import {
   NavigationStackScreenOptions
 } from "react-navigation";
 import { Container } from "native-base";
-import { Avatar, Pen } from "../components/HomeWidget";
+import { Avatar, TweetEntry } from "../components/HomeWidget";
 import FeedListItem from "../components/List";
 import { IStore, ITimelineItem, IFeedType } from "../types";
 
@@ -17,7 +17,9 @@ function mapStateToProps({ feed }: IStore) {
     userMap: feed.userMap
   };
 }
-type HomeProps = IFeedType;
+type HomeProps = IFeedType & {
+  navigation: any
+};
 interface IHomeState {
   refreshing: boolean;
 }
@@ -26,11 +28,11 @@ class Home extends React.Component<HomeProps, IHomeState> {
   static navigationOptions: NavigationScreenConfig<
     NavigationStackScreenOptions
   > = props => {
-    const { openDrawer }: any = props.navigation;
+    const { openDrawer, push }: any = props.navigation;
     return {
       title: "主页",
       headerLeft: <Avatar onPress={() => openDrawer()} />,
-      headerRight: <Pen />
+      headerRight: <TweetEntry onPress={() => push('tweet')}/>
     };
   };
   state = {
@@ -48,7 +50,10 @@ class Home extends React.Component<HomeProps, IHomeState> {
   };
   _renderItem = ({ item }: { item: ITimelineItem | any }) => {
     const userInfo = this.props.userMap.get(item.uid);
-    return <FeedListItem item={item} userInfo={userInfo} />;
+    const navigate = () => this.props.navigation.push('article', {
+      uid: item.uid
+    });
+    return <FeedListItem item={item} userInfo={userInfo} onPress={navigate} />;
   };
   render() {
     const { refreshing } = this.state;

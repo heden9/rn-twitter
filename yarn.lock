@@ -470,6 +470,10 @@
   version "2.0.32"
   resolved "http://registry.npm.taobao.org/@types/fbemitter/download/@types/fbemitter-2.0.32.tgz#8ed204da0f54e9c8eaec31b1eec91e25132d082c"
 
+"@types/lodash@^4.14.109":
+  version "4.14.109"
+  resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.109.tgz#b1c4442239730bf35cabaf493c772b18c045886d"
+
 "@types/react-native@*", "@types/react-native@^0.55.14":
   version "0.55.14"
   resolved "http://registry.npm.taobao.org/@types/react-native/download/@types/react-native-0.55.14.tgz#9a702845c7d72f2774b4e2004cb698c099f9b50e"

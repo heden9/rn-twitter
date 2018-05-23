@@ -79,8 +79,9 @@ const shareActionOpts = [
 export interface IFeedListItemProps {
   item: ITimelineItem;
   userInfo: IUserInfo;
+  onPress: () => void;
 }
-export default function FeedListItem({ item, userInfo }: IFeedListItemProps) {
+export default function FeedListItem({ item, userInfo, onPress = noop }: IFeedListItemProps) {
   const toolsBarOpts = [
     {
       key: "comment",
@@ -120,7 +121,7 @@ export default function FeedListItem({ item, userInfo }: IFeedListItemProps) {
     }
   ];
   return (
-    <ListItem onPress={noop} key={item.key} avatar>
+    <ListItem onPress={onPress} key={item.key} avatar>
       <Left>
         <Thumbnail source={{ uri: userInfo.avatar }} />
       </Left>
@@ -128,7 +129,7 @@ export default function FeedListItem({ item, userInfo }: IFeedListItemProps) {
         <View style={styles.titleGroup}>
           <RNText style={styles.title}>{userInfo.nick_name}</RNText>
           <Icon name="sign" size={17} color={Colors.tintColor} />
-          <RNText style={styles.subTitle}>@NASA</RNText>
+          <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
           <RNText style={styles.dot}>·</RNText>
           <RNText style={styles.time}>19时</RNText>
           <Right>

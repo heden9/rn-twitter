@@ -14,7 +14,7 @@ export default {
   platform,
 
   //Container
-  ctnBgColor: 'rgb(231, 236, 240)',
+  ctnBgColor: 'transparent',
   //Android
   androidRipple: true,
   androidRippleColor: "rgba(256, 256, 256, 0.3)",

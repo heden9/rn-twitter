@@ -3,6 +3,7 @@ import { create, DvaInstance, DvaOption, Model } from "dva-core";
 import { Provider, connect } from "react-redux";
 
 export { connect };
+declare const global: any;
 export default function(options: DvaOption & {
   models: Model[]
 }) {
