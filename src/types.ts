@@ -1,18 +1,18 @@
 
 import * as React from 'react'
 type Uid = string;
-type JsXtext = [string, React.ReactElement<any>]
-export interface TimelineItem {
+export type JsxText = [string, React.ReactElement<any>]
+export interface ITimelineItem {
   key: string,
-  jsXtext: JsXtext[],
+  jsxText: JsxText[],
   comment_count: number,
   forward_count: number,
   like_count: number,
-  created_at: number | string,
+  created_at?: number | string,
   pics: string[],
   uid: Uid,
 }
-export interface UserInfo {
+export interface IUserInfo {
   uid: Uid,
   nick_name: string,
   avatar: string,
@@ -21,10 +21,10 @@ export interface UserInfo {
   following: boolean,
   verified: boolean
 }
-export interface FeedType {
-  timeline: TimelineItem[],
-  user: Map<Uid, UserInfo>
+export interface IFeedType {
+  timeline: ITimelineItem[],
+  userMap: Map<Uid, IUserInfo>
 }
-export interface Store {
-  feed: FeedType,
+export interface IStore {
+  feed: IFeedType,
 }

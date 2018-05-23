@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import Colors from '../constants/Colors'
-const {
+import {
   Text,
-} = require('native-base');
-
+} from "native-base";
+import { JsxText } from '../types'
 const styles = StyleSheet.create({
   default: {
 
@@ -27,7 +27,7 @@ const buttonCreator = (s: string, type: types) => {
     </TouchableHighlight>
   )
 }
-export default function Format(source: string): Array<any> {
+export default function Format(source: string): JsxText[] {
   const regx = /(#[0-9a-zA-Z\\u4e00-\\u9fa5\_]+)|(@([^\s|\/|:|@]+))/ig;
   let res
   let start = 0;

@@ -7,15 +7,15 @@ import Enhance from "./components/TwitterEnhance";
 import getTheme from "./theme/components";
 import theme from "./theme/variables/commonColor";
 import Colors from "./constants/Colors";
-const { create } = require("dva-core");
-const app = create({
-  initialState: {}
+import appModel from './models/app';
+import feedModel from './models/feed';
+import dva from "./utils/dva";
+const app = dva({
+  initialState: {},
+  models: [appModel, feedModel],
 });
-app.model(require("./models/app.ts").default);
-app.model(require("./models/feed.ts").default);
-app.start();
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false
   };
@@ -77,3 +77,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgColor
   }
 });
+export default app.start(<App />)

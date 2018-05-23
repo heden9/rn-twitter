@@ -1,13 +1,12 @@
 import React, { ReactElement } from "react";
 import {
-  FlatList,
   StyleSheet,
   View,
   Text as RNText,
   Image,
   TouchableOpacity
 } from "react-native";
-const {
+import {
   ListItem,
   Left,
   Thumbnail,
@@ -15,11 +14,10 @@ const {
   Text,
   Right,
   ActionSheet,
-  Button
-} = require("native-base");
+} from "native-base";
 import { Icon, ToolsBar, LikeButton } from "./HomeWidget";
 import Colors from "../constants/Colors";
-import { TimelineItem, UserInfo } from "../types";
+import { ITimelineItem, IUserInfo } from "../types";
 const FONT = {
   fontSize: 16,
   color: Colors.subTitle
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     borderRadius: 15
   }
 });
-
+const noop = () => {}
 const showMoreActionSheet = (who: string) => {
   const BUTTONS = [
     "添加推文到瞬间中",
@@ -78,11 +76,11 @@ const shareActionOpts = [
   "分享推文...",
   "取消"
 ];
-export interface FeedListItemProps {
-  item: TimelineItem;
-  userInfo: UserInfo;
+export interface IFeedListItemProps {
+  item: ITimelineItem;
+  userInfo: IUserInfo;
 }
-export default function FeedListItem({ item, userInfo }: FeedListItemProps) {
+export default function FeedListItem({ item, userInfo }: IFeedListItemProps) {
   const toolsBarOpts = [
     {
       key: "comment",
@@ -122,7 +120,7 @@ export default function FeedListItem({ item, userInfo }: FeedListItemProps) {
     }
   ];
   return (
-    <ListItem onPress={() => {}} key={item.key} avatar>
+    <ListItem onPress={noop} key={item.key} avatar>
       <Left>
         <Thumbnail source={{ uri: userInfo.avatar }} />
       </Left>
@@ -135,13 +133,13 @@ export default function FeedListItem({ item, userInfo }: FeedListItemProps) {
           <RNText style={styles.time}>19时</RNText>
           <Right>
             <TouchableOpacity
-              onPress={() => this.showMoreActionSheet(`@${userInfo.nick_name}`)}
+              onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
             >
               <Icon name="down" size={17} color={Colors.tabIconDefault} />
             </TouchableOpacity>
           </Right>
         </View>
-        <Text note>{item.jsXtext}</Text>
+        <Text note>{item.jsxText}</Text>
         {item.pics && (
           <Image
             style={styles.image}

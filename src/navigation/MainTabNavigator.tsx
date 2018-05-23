@@ -3,10 +3,7 @@ import {
   createStackNavigator,
   createDrawerNavigator,
   createBottomTabNavigator,
-  NavigationStackRouterConfig,
   NavigationRouteConfig,
-  NavigationScreenConfig,
-  NavigationStackScreenOptions
 } from "react-navigation";
 import Colors from "../constants/Colors";
 import { TwitterIcon } from "../components/HomeWidget";

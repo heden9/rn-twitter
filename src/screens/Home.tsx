@@ -1,46 +1,28 @@
 import React from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  FlatList
-} from "react-native";
-import { WebBrowser } from "expo";
+import { FlatList } from "react-native";
 import {
   NavigationScreenConfig,
   NavigationStackScreenOptions
 } from "react-navigation";
-const {
-  Container,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Thumbnail,
-  Text
-} = require("native-base");
-import { MonoText } from "../components/StyledText";
+import { Container } from "native-base";
 import { Avatar, Pen } from "../components/HomeWidget";
 import FeedListItem from "../components/List";
-import { Store, TimelineItem, FeedType } from '../types'
+import { IStore, ITimelineItem, IFeedType } from "../types";
 
-const { connect } = require('dva-core');
+import { connect } from "../utils/dva";
 
-function mapStateToProps({ feed }: Store ) {
+function mapStateToProps({ feed }: IStore) {
   return {
     timeline: feed.timeline,
-    userInfoMap: feed.user
-  }
+    userMap: feed.userMap
+  };
 }
-type HomeProps = FeedType;
-type HomeState = {
-  refreshing: boolean
+type HomeProps = IFeedType;
+interface IHomeState {
+  refreshing: boolean;
 }
-@connect(mapStateToProps)
-export default class Home extends React.Component<HomeProps, HomeState> {
+
+class Home extends React.Component<HomeProps, IHomeState> {
   static navigationOptions: NavigationScreenConfig<
     NavigationStackScreenOptions
   > = props => {
@@ -64,10 +46,10 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       });
     }, 1000);
   };
-  _renderItem = ({ item }: { item: TimelineItem | any}) => {
-    const userInfo = this.props.user.get(item.uid)
-    return <FeedListItem item={item} userInfo={userInfo}/>
-  }
+  _renderItem = ({ item }: { item: ITimelineItem | any }) => {
+    const userInfo = this.props.userMap.get(item.uid);
+    return <FeedListItem item={item} userInfo={userInfo} />;
+  };
   render() {
     const { refreshing } = this.state;
     const { timeline } = this.props;
@@ -83,3 +65,4 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     );
   }
 }
+export default connect(mapStateToProps)(Home)

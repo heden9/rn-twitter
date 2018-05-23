@@ -8,8 +8,9 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "preserveConstEnums": true,
-    "allowJs": false,
-    "sourceMap": true
+    "allowJs": true,
+    "sourceMap": false,
+    "moduleResolution":"Node"
   },
   "exclude": [
     "index.android.js",
