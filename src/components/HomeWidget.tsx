@@ -50,23 +50,26 @@ const styles = StyleSheet.create({
     marginLeft: 3
   },
   touchContainer: {
-    width: 45,
     height: 45,
     paddingVertical: 6,
-    justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: 'row'
   },
   lottieContainer: {
     position: "relative",
     height: 20,
-    width: 20
+    width: 20,
+    marginTop: -7,
   },
   lottie: {
     position: "absolute",
-    width: 60,
-    height: 60,
+    width: 65,
+    height: 65,
     top: "-50%",
     left: "-50%"
+  },
+  like: {
+    color: Colors.likeColor
   }
 });
 const noop = () => {};
@@ -90,21 +93,56 @@ export function Pen({ onPress = noop }) {
     </TouchableOpacity>
   );
 }
-export class LikeButton extends React.PureComponent {
-  animation: any;
-  play = () => {
-    console.log(this.animation)
-    // this.animation.play();
+interface ILikeButtonProps {
+  like_count: string | number,
+}
+interface ILikeButtonState {
+  like: boolean,
+  like_count?: number,
+}
+export class LikeButton extends React.PureComponent<ILikeButtonProps, ILikeButtonState> {
+  static getDerivedStateFromProps(nextProps: ILikeButtonProps, prevState: ILikeButtonState){
+    const { like } = prevState;
+    const like_count = +nextProps.like_count;
+    return {
+      ...prevState,
+      like_count: like ? like_count + 1 : like_count
+    }
+  }
+  animation: React.RefObject<any>;
+  state = {
+    like: false,
+    like_count: 0,
+  }
+  constructor(props: any) {
+    super(props);
+    this.animation = React.createRef();
+  }
+  toggle = () => {
+    const { like, like_count } = this.state;
+    if (like) {
+      this.animation.current.reset();
+    }else {
+      this.animation.current.play(30, 120);
+    }
+    this.setState({
+      like: !like,
+      like_count: !like ? like_count + 1 : +this.props.like_count
+    })
   };
   render() {
+    const { like_count, like } = this.state;
+    const likeStyle = like ? styles.like : {};
     return (
-      <TouchableWithoutFeedback onPress={this.play}>
+      <TouchableWithoutFeedback onPress={this.toggle}>
         <View style={styles.touchContainer}>
           {
             MyLottie({
+              _ref: this.animation,
               source: require("../assets/lottie/heart.json")
             })
           }
+          <RNText style={[styles.toolsText, { marginLeft: 7 }, likeStyle]}>{like_count}</RNText>
         </View>
       </TouchableWithoutFeedback>
     );

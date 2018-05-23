@@ -103,7 +103,7 @@ export default function FeedListItem({ item, userInfo }: IFeedListItemProps) {
     },
     {
       key: "like",
-      IconCpt: <LikeButton />
+      IconCpt: <LikeButton like_count={item.like_count} />
     },
     {
       key: "upload",
