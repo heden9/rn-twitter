@@ -5,20 +5,18 @@ import {
   Text as RNText,
   StyleSheet,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import Colors from "../constants/Colors";
-const {
-  Text,
-  ActionSheet,
-  Button
-} = require("native-base");
+const { Lottie } = require("expo").DangerZone;
+const { Text, ActionSheet, Button } = require("native-base");
 const { createIconSetFromIcoMoon } = require("@expo/vector-icons");
 const icoMoonConfig = require("../assets/fonts/config.json");
 export const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 interface TwitterIconProps {
-	name: string,
-	selected: boolean
+  name: string;
+  selected: boolean;
 }
 
 export function TwitterIcon({ name, selected = false }: TwitterIconProps) {
@@ -50,6 +48,25 @@ const styles = StyleSheet.create({
     color: Colors.tabIconDefault,
     fontSize: 16,
     marginLeft: 3
+  },
+  touchContainer: {
+    width: 45,
+    height: 45,
+    paddingVertical: 6,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  lottieContainer: {
+    position: "relative",
+    height: 20,
+    width: 20
+  },
+  lottie: {
+    position: "absolute",
+    width: 60,
+    height: 60,
+    top: "-50%",
+    left: "-50%"
   }
 });
 const noop = () => {};
@@ -73,38 +90,60 @@ export function Pen({ onPress = noop }) {
     </TouchableOpacity>
   );
 }
+export class LikeButton extends React.PureComponent {
+  animation: any;
+  constructor(props: any) {
+    super(props);
+  }
+  play = () => {
+    console.log(this.animation)
+    // this.animation.play();
+  };
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={this.play}>
+        <View style={styles.touchContainer}>
+          {
+            MyLottie({
+              source: require("../assets/lottie/heart.json")
+            })
+          }
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+}
+
+interface MyLottieProps {
+  source: string | number;
+  _ref?: any;
+}
+export function MyLottie ({ source, _ref }: MyLottieProps) {
+  return (
+    <View style={styles.lottieContainer}>
+      <Lottie loop={false} style={styles.lottie} ref={_ref} source={source} />
+    </View>
+  );
+}
 interface optionsItem {
   key: string;
+  onPress?: Function;
   icon?: string;
   label?: string | number;
   IconCpt?: ReactElement<any>;
 }
-const Options: Array<optionsItem> = [
-  {
-    key: "comment",
-    icon: "comment",
-    label: "12"
-  },
-  {
-    key: "forward",
-    icon: "forward",
-    label: "12"
-  },
-  {
-    key: "upload",
-    icon: "upload"
-  }
-];
-export function ToolsBar({ options = Options }) {
+
+export function ToolsBar({ options }: { options: Array<optionsItem> }) {
   return (
     <View style={styles.toolsBar}>
       {options.map(item => {
+        const { onPress = noop } = item;
         return (
           <View style={{ flex: 1 }} key={item.key}>
             {item.IconCpt ? (
               React.cloneElement(item.IconCpt, { ...item })
             ) : (
-              <Button iconLeft transparent light>
+              <Button onPress={onPress} iconLeft transparent light>
                 {item.icon && (
                   <Icon
                     name={item.icon}

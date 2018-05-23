@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import Colors from '../constants/Colors'
-import {
+const {
   Text,
-} from 'native-base';
+} = require('native-base');
 
 const styles = StyleSheet.create({
   default: {

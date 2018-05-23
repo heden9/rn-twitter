@@ -7,11 +7,12 @@ import Enhance from "./components/TwitterEnhance";
 import getTheme from "./theme/components";
 import theme from "./theme/variables/commonColor";
 import Colors from "./constants/Colors";
-let { create } = require("dva-core");
+const { create } = require("dva-core");
 const app = create({
   initialState: {}
 });
-app.model(require("./models/app").default);
+app.model(require("./models/app.ts").default);
+app.model(require("./models/feed.ts").default);
 app.start();
 
 export default class App extends React.Component {
@@ -51,7 +52,7 @@ export default class App extends React.Component {
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         // ...Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
+        // We include SpaceMono because we use it in Home.js. Feel free
         // to remove this if you are not using it in your app
         // 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         icomoon: require("./assets/fonts/icomoon.ttf")
