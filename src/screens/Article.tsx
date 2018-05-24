@@ -6,7 +6,7 @@ import {
 } from "react-navigation";
 import { Text, StyleSheet, View } from "react-native";
 import Colors from "../constants/Colors";
-import {FeedListItem_2 as FeedListItem} from "../components/List";
+import { FeedListItem_2 as FeedListItem } from "../components/List";
 import { connect } from "../utils/dva";
 import { IStore, ITimelineItem, IUserInfo } from "../types";
 const styles = StyleSheet.create({
@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.tabBar,
     paddingVertical: 20
+  },
+  cardContainer: {
+    backgroundColor: "#fff",
+    padding: 16,
+    paddingBottom: 0
   }
 });
 
@@ -26,19 +31,27 @@ interface IArticleProps {
   navigation: any;
   articleInfo: ITimelineItem;
   userInfo: IUserInfo;
+  likeChange: any;
 }
 class Article extends React.PureComponent<IArticleProps> {
   static navigationOptions = {
     title: "推文"
   };
-  componentDidMount() {
-  }
+  componentDidMount() {}
   render() {
-    const { articleInfo, userInfo } = this.props;
+    const { articleInfo, userInfo, likeChange } = this.props;
+
     return (
       <Container>
         <Content>
-          <FeedListItem item={articleInfo} userInfo={userInfo} />
+          <View style={styles.cardContainer}>
+            <FeedListItem
+              test={likeChange}
+              item={articleInfo}
+              userInfo={userInfo}
+            />
+            <Text>{articleInfo.like_count}喜欢</Text>
+          </View>
         </Content>
         <View style={styles.replayContainer}>
           <Text>replay</Text>
@@ -47,6 +60,14 @@ class Article extends React.PureComponent<IArticleProps> {
     );
   }
 }
+function mapDispatchToProps(dispatch: any, props: IArticleProps) {
+  const { aid, uid } = props.navigation.state.params;
+  return {
+    likeChange(like: boolean) {
+      dispatch({ type: "feed/like_change", payload: { id: aid, like } });
+    }
+  };
+}
 function mapStateToProps({ feed }: IStore, props: IArticleProps) {
   const { aid, uid } = props.navigation.state.params;
   return {
@@ -54,4 +75,4 @@ function mapStateToProps({ feed }: IStore, props: IArticleProps) {
     userInfo: feed.userMap[uid]
   };
 }
-export default connect(mapStateToProps)(Article);
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

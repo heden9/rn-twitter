@@ -42,8 +42,16 @@ export default {
     userMap: userInfo
   },
   reducers: {
-    like_change(state: IFeedType, { id, like }: { id: string; like: boolean }) {
+    like_change(
+      state: IFeedType,
+      { payload: { id, like } }: { payload: { id: string; like: boolean } }
+    ) {
       state.timeline.map[id].is_like = like;
+      if (like) {
+        state.timeline.map[id].like_count += 1
+      }else {
+        state.timeline.map[id].like_count -= 1
+      }
     }
   },
   effects: {

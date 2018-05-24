@@ -12,11 +12,10 @@ import feedModel from "./models/feed";
 import useImmer from "dva-immer";
 import dva from "./utils/dva";
 const app = dva({
+  ...useImmer(),
   initialState: {},
   models: [appModel, feedModel]
 });
-app.use(useImmer());
-
 class App extends React.Component {
   state = {
     isLoadingComplete: false

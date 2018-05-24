@@ -4,9 +4,14 @@ import {
   NavigationScreenConfig,
   NavigationStackScreenOptions
 } from "react-navigation";
-import { Container } from "native-base";
-import { Avatar, TweetEntry } from "../components/HomeWidget";
-import {FeedListItem} from "../components/List";
+import { Container, ActionSheet } from "native-base";
+import {
+  Avatar,
+  TweetEntry,
+  LikeButton,
+  ToolsBar
+} from "../components/HomeWidget";
+import { FeedListItem_3 } from "../components/List";
 import { IStore, ITimelineItem, IFeedType, IUserMap } from "../types";
 
 import { connect } from "../utils/dva";
@@ -21,15 +26,85 @@ function mapStateToProps({ feed }: IStore) {
 interface IHomeProps {
   navigation: any;
   timelineMap: {
-    [key: string]: ITimelineItem
+    [key: string]: ITimelineItem;
   };
   timelineList: ITimelineItem[];
   userMap: IUserMap;
+  dispatch: any;
 }
 interface IHomeState {
   refreshing: boolean;
 }
 
+const forwordActionOpts = ["转推", "带评论转推", "取消"];
+const shareActionOpts = [
+  "通过私信分享",
+  "添加推文到书签",
+  "分享推文...",
+  "取消"
+];
+
+function TTT(props: any) {
+  console.log("TTT render");
+  const timelineItem = props.item;
+  const toolsBarOpts = [
+    {
+      key: "comment",
+      icon: "comment",
+      label: timelineItem.comment_count
+    },
+    {
+      key: "forward",
+      icon: "forward",
+      onPress: () => {
+        return ActionSheet.show(
+          {
+            options: forwordActionOpts,
+            cancelButtonIndex: forwordActionOpts.length - 1
+          },
+          () => {}
+        );
+      },
+      label: timelineItem.forward_count
+    },
+    {
+      key: "like",
+      IconCpt: (
+        <LikeButton
+          onPress={like => {
+            this.props.dispatch({
+              type: "feed/like_change",
+              payload: { id: timelineItem.key, like }
+            });
+          }}
+          initialLike={timelineItem.is_like}
+          like_count={timelineItem.like_count}
+        />
+      )
+    },
+    {
+      key: "upload",
+      icon: "upload",
+      onPress: () => {
+        return ActionSheet.show(
+          {
+            options: shareActionOpts,
+            cancelButtonIndex: shareActionOpts.length - 1
+          },
+          () => {}
+        );
+      }
+    }
+  ];
+  return <ToolsBar options={toolsBarOpts} />;
+}
+
+function _({ feed }, props: any) {
+  return {
+    item: feed.timeline.map[props.aid]
+  };
+}
+const Test = connect(_)(TTT);
 class Home extends React.Component<IHomeProps, IHomeState> {
   static navigationOptions: NavigationScreenConfig<
     NavigationStackScreenOptions
@@ -54,6 +129,12 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       });
     }, 1000);
   };
+  _test = (aid: any, like: any) => {
+    this.props.dispatch({
+      type: "feed/like_change",
+      payload: { id: aid, like }
+    });
+  };
   _renderItem = ({ item }: { item: any }) => {
     const { timelineMap, userMap, navigation } = this.props;
     const timelineItem = timelineMap[item];
@@ -64,12 +145,64 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         aid: timelineItem.key,
         info: timelineItem
       });
+    console.log("render Item");
+    // const toolsBarOpts = [
+    //   {
+    //     key: "comment",
+    //     icon: "comment",
+    //     label: timelineItem.comment_count
+    //   },
+    //   {
+    //     key: "forward",
+    //     icon: "forward",
+    //     onPress: () => {
+    //       return ActionSheet.show(
+    //         {
+    //           options: forwordActionOpts,
+    //           cancelButtonIndex: forwordActionOpts.length - 1
+    //         },
+    //         () => {}
+    //       );
+    //     },
+    //     label: timelineItem.forward_count
+    //   },
+    //   {
+    //     key: "like",
+    //     IconCpt: (
+    //       <LikeButton
+    //         onPress={like => {
+    //           this.props.dispatch({
+    //             type: "feed/like_change",
+    //             payload: { id: timelineItem.key, like }
+    //           });
+    //         }}
+    //         initialLike={timelineItem.is_like}
+    //         like_count={timelineItem.like_count}
+    //       />
+    //     )
+    //   },
+    //   {
+    //     key: "upload",
+    //     icon: "upload",
+    //     onPress: () => {
+    //       return ActionSheet.show(
+    //         {
+    //           options: shareActionOpts,
+    //           cancelButtonIndex: shareActionOpts.length - 1
+    //         },
+    //         () => {}
+    //       );
+    //     }
+    //   }
+    // ];
     return (
-      <FeedListItem
+      <FeedListItem_3
         item={timelineItem}
         userInfo={userInfo}
         onPress={navigate}
-      />
+      >
+        <Test aid={timelineItem.key} />
+      </FeedListItem_3>
     );
   };
   _keyExtractor = (item: any, index: number) => {
@@ -77,7 +210,8 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   };
   render() {
     const { refreshing } = this.state;
-    const { timelineList } = this.props;
+    const { timelineList, timelineMap } = this.props;
+    console.log("home render");
     return (
       <Container>
         <FlatList

@@ -48,11 +48,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
     borderRadius: 15
-  },
-  cardContainer: {
-    backgroundColor: '#fff',
-    padding: 16,
-    paddingBottom: 0,
   }
 });
 const noop = () => {};
@@ -89,7 +84,8 @@ export interface IFeedListItemProps {
 export function FeedListItem({
   item,
   userInfo,
-  onPress = noop
+  onPress = noop,
+  test
 }: IFeedListItemProps) {
   const toolsBarOpts = [
     {
@@ -113,7 +109,13 @@ export function FeedListItem({
     },
     {
       key: "like",
-      IconCpt: <LikeButton like_count={item.like_count} />
+      IconCpt: (
+        <LikeButton
+          initialLike={item.is_like}
+          onPress={test}
+          like_count={item.like_count}
+        />
+      )
     },
     {
       key: "upload",
@@ -150,7 +152,9 @@ export function FeedListItem({
             </TouchableOpacity>
           </Right>
         </View>
-        <Text note>{item.jsxText}</Text>
+        <Text note style={{ lineHeight: 20 }}>
+          {item.jsxText}
+        </Text>
         {item.pics && (
           <Image style={styles.image} source={{ uri: item.pics[0] }} />
         )}
@@ -160,11 +164,7 @@ export function FeedListItem({
   );
 }
 
-export function FeedListItem_2({
-  item,
-  userInfo,
-  onPress = noop
-}: IFeedListItemProps) {
+export function ToolsBarCreator(item: any) {
   const toolsBarOpts = [
     {
       key: "comment",
@@ -187,7 +187,99 @@ export function FeedListItem_2({
     },
     {
       key: "like",
-      IconCpt: <LikeButton like_count={item.like_count} />
+      IconCpt: (
+        <LikeButton initialLike={item.is_like} like_count={item.like_count} />
+      )
+    },
+    {
+      key: "upload",
+      icon: "upload",
+      onPress: () => {
+        return ActionSheet.show(
+          {
+            options: shareActionOpts,
+            cancelButtonIndex: shareActionOpts.length - 1
+          },
+          () => {}
+        );
+      }
+    }
+  ];
+  return function _ToolsBar() {
+    return <ToolsBar options={toolsBarOpts} />;
+  };
+}
+export function FeedListItem_3({
+  item,
+  userInfo,
+  onPress = noop,
+  children
+}: IFeedListItemProps & { children?: any }) {
+  return (
+    <ListItem onPress={onPress} key={item.key} avatar>
+      <Left>
+        <Thumbnail source={{ uri: userInfo.avatar }} />
+      </Left>
+      <Body style={{ paddingBottom: 0 }}>
+        <View style={styles.titleGroup}>
+          <RNText style={styles.title}>{userInfo.nick_name}</RNText>
+          <Icon name="sign" size={17} color={Colors.tintColor} />
+          <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
+          <RNText style={styles.dot}>·</RNText>
+          <RNText style={styles.time}>19时</RNText>
+          <Right>
+            <TouchableOpacity
+              onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
+            >
+              <Icon name="down" size={17} color={Colors.tabIconDefault} />
+            </TouchableOpacity>
+          </Right>
+        </View>
+        <Text note style={{ lineHeight: 20 }}>
+          {item.jsxText}
+        </Text>
+        {item.pics && (
+          <Image style={styles.image} source={{ uri: item.pics[0] }} />
+        )}
+        {children}
+      </Body>
+    </ListItem>
+  );
+}
+export function FeedListItem_2({
+  item,
+  userInfo,
+  onPress = noop,
+  test
+}: IFeedListItemProps) {
+  const toolsBarOpts = [
+    {
+      key: "comment",
+      icon: "comment"
+    },
+    {
+      key: "forward",
+      icon: "forward",
+      onPress: () => {
+        return ActionSheet.show(
+          {
+            options: forwordActionOpts,
+            cancelButtonIndex: forwordActionOpts.length - 1
+          },
+          () => {}
+        );
+      }
+    },
+    {
+      key: "like",
+      IconCpt: (
+        <LikeButton
+          initialLike={item.is_like}
+          onPress={test}
+          like_count={item.like_count}
+          show_count={false}
+        />
+      )
     },
     {
       key: "upload",
@@ -204,10 +296,10 @@ export function FeedListItem_2({
     }
   ];
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.titleGroup}>
+    <React.Fragment>
+      <View style={[styles.titleGroup, { marginBottom: 15 }]}>
         <Thumbnail source={{ uri: userInfo.avatar }} />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginLeft: 20 }}>
           <View style={styles.titleGroup}>
             <RNText style={styles.title}>{userInfo.nick_name}</RNText>
             <Icon name="sign" size={17} color={Colors.tintColor} />
@@ -224,11 +316,17 @@ export function FeedListItem_2({
           </View>
         </View>
       </View>
-      <Text note>{item.jsxText}</Text>
+      <RNText style={{ fontSize: 20, fontWeight: "300", lineHeight: 25 }}>
+        {item.jsxText}
+      </RNText>
       {item.pics && (
         <Image style={styles.image} source={{ uri: item.pics[0] }} />
       )}
-      <ToolsBar options={toolsBarOpts} />
-    </View>
+      <ToolsBar
+        buttonStyle={{ justifyContent: "center" }}
+        iconSize={22}
+        options={toolsBarOpts}
+      />
+    </React.Fragment>
   );
 }

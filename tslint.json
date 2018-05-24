@@ -10,6 +10,7 @@
     "no-empty": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,
-    "no-conditional-assignment": false
+    "no-conditional-assignment": false,
+    "max-classes-per-file": false
   }
 }

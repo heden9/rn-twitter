@@ -98,7 +98,7 @@ export function Avatar({ onPress = noop }) {
     <TouchableHighlight style={styles.button} onPress={onPress}>
       <Image
         style={styles.image}
-        source={require('../assets/images/avatar.jpg')}
+        source={require("../assets/images/avatar.jpg")}
       />
     </TouchableHighlight>
   );
@@ -112,16 +112,22 @@ export function TweetEntry({ onPress = noop }) {
 }
 interface ILikeButtonProps {
   like_count: string | number;
+  initialLike: boolean;
+  show_count?: boolean;
+  style?: any;
+  onPress?: (like: boolean) => void;
 }
 interface ILikeButtonState {
   like: boolean;
   like_count?: number;
-  show_count?: boolean;
 }
 export class LikeButton extends React.PureComponent<
   ILikeButtonProps,
   ILikeButtonState
 > {
+  static defaultProps = {
+    onPress: noop
+  }
   static getDerivedStateFromProps(
     nextProps: ILikeButtonProps,
     prevState: ILikeButtonState
@@ -130,13 +136,14 @@ export class LikeButton extends React.PureComponent<
     const like_count = +nextProps.like_count;
     return {
       ...prevState,
-      like_count: like ? like_count + 1 : like_count
+      like: nextProps.initialLike,
+      like_count
     };
   }
   animation: React.RefObject<any>;
   state = {
     like: false,
-    like_count: 0,
+    like_count: 0
   };
   constructor(props: any) {
     super(props);
@@ -153,18 +160,22 @@ export class LikeButton extends React.PureComponent<
       like: !like,
       like_count: !like ? like_count + 1 : +this.props.like_count
     });
+    this.props.onPress(!like)
   };
   render() {
     const { like_count, like } = this.state;
+    const { show_count = true, style = styles.touchContainer } = this.props;
     const likeStyle = like ? styles.like : {};
     return (
       <TouchableWithoutFeedback onPress={this.toggle}>
-        <View style={styles.touchContainer}>
+        <View style={style}>
           {MyLottie({
             _ref: this.animation,
             source: require("../assets/lottie/heart.json")
           })}
-          <RNText style={[styles.toolsText, likeStyle]}>{like_count}</RNText>
+          {show_count && (
+            <RNText style={[styles.toolsText, likeStyle]}>{like_count}</RNText>
+          )}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -195,35 +206,54 @@ interface IOptionsItem {
   label?: string | number;
   IconCpt?: ReactElement<any>;
 }
-
-export function ToolsBar({ options }: { options: IOptionsItem[] }) {
+interface IToolsBarProps {
+  options: IOptionsItem[];
+  buttonStyle?: any;
+  iconSize?: number;
+  children?: any;
+}
+export function ToolsBar({
+  options,
+  buttonStyle = {},
+  iconSize = 20,
+  children = noop
+}: IToolsBarProps) {
   return (
-    <View style={styles.toolsBar}>
-      {options.map(item => {
-        const { onPress = noop } = item;
-        return (
-          <View style={styles.toolsBarItem} key={item.key}>
-            {item.IconCpt ? (
-              React.cloneElement(item.IconCpt, { ...item })
-            ) : (
-              <TouchableWithoutFeedback onPress={onPress}>
-                <View style={styles.touchContainer}>
-                  {item.icon && (
-                    <Icon
-                      name={item.icon}
-                      size={20}
-                      color={Colors.tabIconDefault}
-                    />
-                  )}
-                  {item.label && (
-                    <RNText style={styles.toolsText}>{item.label}</RNText>
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            )}
-          </View>
-        );
-      })}
-    </View>
+    <React.Fragment>
+      {
+        children({options, buttonStyle, iconSize})
+      }
+      <View style={styles.toolsBar}>
+        {options.map(item => {
+          const { onPress = noop } = item;
+          return (
+            <View style={styles.toolsBarItem} key={item.key}>
+              {item.IconCpt ? (
+                React.cloneElement(item.IconCpt, {
+                  ...item,
+                  style: [styles.touchContainer, buttonStyle]
+                })
+              ) : (
+                <TouchableWithoutFeedback onPress={onPress}>
+                  <View style={[styles.touchContainer, buttonStyle]}>
+                    {item.icon && (
+                      <Icon
+                        name={item.icon}
+                        size={iconSize}
+                        color={Colors.tabIconDefault}
+                      />
+                    )}
+                    {item.label && (
+                      <RNText style={styles.toolsText}>{item.label}</RNText>
+                    )}
+                  </View>
+                </TouchableWithoutFeedback>
+              )}
+            </View>
+          );
+        })}
+      </View>
+    </React.Fragment>
   );
 }
+

@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, TouchableHighlight, Platform } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, Platform } from "react-native";
 import Colors from '../constants/Colors'
 import {
-  Text,
+  // Text,
 } from "native-base";
 import { JsxText } from '../types'
 const styles = StyleSheet.create({
@@ -11,11 +11,9 @@ const styles = StyleSheet.create({
   },
   attention: {
     color: Colors.tintColor,
-    lineHeight: 20,
   },
   topic: {
     color: Colors.tintColor,
-    lineHeight: 20
   }
 })
 type types = 'attention' | 'topic' | 'default';
@@ -35,7 +33,7 @@ export default function Format(source: string): JsxText[] {
   let res
   let start = 0;
   const jsxArr = [];
-  const buttonCreator = Platform.OS === 'ios' ? iosButtonCreator : androidButtonCreator
+  const buttonCreator = /*Platform.OS === 'ios' ? iosButtonCreator :*/ androidButtonCreator
   while(res = regx.exec(source)) {
     const s = res[0];
     const index = res.index;
