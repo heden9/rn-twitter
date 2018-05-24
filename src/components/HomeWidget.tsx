@@ -98,10 +98,7 @@ export function Avatar({ onPress = noop }) {
     <TouchableHighlight style={styles.button} onPress={onPress}>
       <Image
         style={styles.image}
-        source={{
-          uri:
-            "https://pbs.twimg.com/profile_images/941537711810158593/aDLJWEHU_normal.jpg"
-        }}
+        source={require('../assets/images/avatar.jpg')}
       />
     </TouchableHighlight>
   );

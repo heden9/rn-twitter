@@ -7,24 +7,28 @@ import {
 import { Container } from "native-base";
 import { Avatar, TweetEntry } from "../components/HomeWidget";
 import FeedListItem from "../components/List";
-import { IStore, ITimelineItem, IFeedType } from "../types";
+import { IStore, ITimelineItem, IFeedType, UserMap } from "../types";
 
 import { connect } from "../utils/dva";
 
 function mapStateToProps({ feed }: IStore) {
   return {
-    timeline: feed.timeline,
+    timelineMap: feed.timeline.map,
+    timelineList: feed.timeline.list,
     userMap: feed.userMap
   };
 }
-type HomeProps = IFeedType & {
-  navigation: any
+interface IHomeProps {
+  navigation: any,
+  timelineMap: Map<any, ITimelineItem>,
+  timelineList: ITimelineItem[],
+  userMap: UserMap
 };
 interface IHomeState {
   refreshing: boolean;
 }
 
-class Home extends React.Component<HomeProps, IHomeState> {
+class Home extends React.Component<IHomeProps, IHomeState> {
   static navigationOptions: NavigationScreenConfig<
     NavigationStackScreenOptions
   > = props => {
@@ -48,23 +52,28 @@ class Home extends React.Component<HomeProps, IHomeState> {
       });
     }, 1000);
   };
-  _renderItem = ({ item }: { item: ITimelineItem | any }) => {
-    const userInfo = this.props.userMap.get(item.uid);
+  _renderItem = ({ item }: { item: any }) => {
+    const timelineItem = this.props.timelineMap.get(item);
+    const userInfo = this.props.userMap.get(timelineItem.uid);
     const navigate = () => this.props.navigation.navigate('article', {
-      uid: item.uid
+      uid: timelineItem.uid,
     });
-    return <FeedListItem item={item} userInfo={userInfo} onPress={navigate} />;
+    return <FeedListItem item={timelineItem} userInfo={userInfo} onPress={navigate} />;
   };
+  _keyExtractor = (item: any, index: number) => {
+    console.log(item, index)
+    return '' + index;
+  }
   render() {
-    console.log('home render!')
     const { refreshing } = this.state;
-    const { timeline } = this.props;
+    const { timelineList } = this.props;
     return (
       <Container>
         <FlatList
           onRefresh={this._handleRefresh}
           refreshing={refreshing}
-          data={timeline}
+          data={timelineList}
+          keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
       </Container>

@@ -22,17 +22,27 @@ const userInfo = keyBy(new Array(10).fill(0).map((item, index) => ({
   following: false,
   verified: true
 })), 'uid')
-function objToStrMap(obj: any) {
+function objToStrMap(obj: any, key: string = 'key') {
   const strMap = new Map();
   for (const k of Object.keys(obj)) {
     strMap.set(k, obj[k]);
   }
   return strMap;
 }
+function arrToStrMap(obj: any, key: string = 'key') {
+  const map = new Map();
+  const list: string[] = [];
+  obj.forEach((item: any) => {
+    map.set(item[key], item);
+    list.push(item[key])
+  })
+  return { map, list };
+}
+
 export default {
   namespace: "feed",
   state: {
-    timeline,
+    timeline: arrToStrMap(timeline),
     userMap: objToStrMap(userInfo)
   },
   reducers: {

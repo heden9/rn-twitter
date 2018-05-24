@@ -21,9 +21,14 @@ export interface IUserInfo {
   following: boolean,
   verified: boolean
 }
+export type UserMap = Map<Uid, IUserInfo>
+export interface ITimeline {
+  map: Map<any, ITimelineItem>,
+  list: string[]
+}
 export interface IFeedType {
-  timeline: ITimelineItem[],
-  userMap: Map<Uid, IUserInfo>
+  timeline: ITimeline,
+  userMap: UserMap
 }
 export interface IStore {
   feed: IFeedType,

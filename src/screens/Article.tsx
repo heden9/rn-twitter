@@ -6,9 +6,9 @@ import {
 } from "react-navigation";
 import { Text, StyleSheet, View } from "react-native";
 import Colors from "../constants/Colors";
-interface IArticleProps {
-  navigation: any;
-}
+import FeedListItem from "../components/List";
+import { connect } from "../utils/dva";
+import { IStore } from "../types";
 const styles = StyleSheet.create({
   replayContainer: {
     position: "absolute",
@@ -21,7 +21,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   }
 });
-export default class Article extends React.PureComponent<IArticleProps> {
+
+interface IArticleProps {
+  navigation: any;
+}
+class Article extends React.PureComponent<IArticleProps> {
   static navigationOptions = {
     title: "推文"
   };
@@ -31,9 +35,7 @@ export default class Article extends React.PureComponent<IArticleProps> {
   render() {
     return (
       <Container>
-        <Content>
-          <Text>page: Article</Text>
-        </Content>
+        <Content>{/* <FeedListItem item={} userInfo={}/> */}</Content>
         <View style={styles.replayContainer}>
           <Text>replay</Text>
         </View>
@@ -41,3 +43,10 @@ export default class Article extends React.PureComponent<IArticleProps> {
     );
   }
 }
+function mapStateToProps({ feed }: IStore, props: IArticleProps) {
+  const index = props.navigation.state.index;
+  return {
+    // articleInfo: feed.timeline[index]
+  };
+}
+export default connect()(Article);
