@@ -116,6 +116,7 @@ interface ILikeButtonProps {
 interface ILikeButtonState {
   like: boolean;
   like_count?: number;
+  show_count?: boolean;
 }
 export class LikeButton extends React.PureComponent<
   ILikeButtonProps,
@@ -135,7 +136,7 @@ export class LikeButton extends React.PureComponent<
   animation: React.RefObject<any>;
   state = {
     like: false,
-    like_count: 0
+    like_count: 0,
   };
   constructor(props: any) {
     super(props);

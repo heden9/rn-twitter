@@ -7,13 +7,15 @@ import Enhance from "./components/TwitterEnhance";
 import getTheme from "./theme/components";
 import theme from "./theme/variables/commonColor";
 import Colors from "./constants/Colors";
-import appModel from './models/app';
-import feedModel from './models/feed';
+import appModel from "./models/app";
+import feedModel from "./models/feed";
+import useImmer from "dva-immer";
 import dva from "./utils/dva";
 const app = dva({
   initialState: {},
-  models: [appModel, feedModel],
+  models: [appModel, feedModel]
 });
+app.use(useImmer());
 
 class App extends React.Component {
   state = {
@@ -73,7 +75,7 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 });
-export default app.start(<App />)
+export default app.start(<App />);

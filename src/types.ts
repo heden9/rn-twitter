@@ -8,6 +8,7 @@ export interface ITimelineItem {
   comment_count: number,
   forward_count: number,
   like_count: number,
+  is_like: boolean,
   created_at?: number | string,
   pics: string[],
   uid: Uid,
@@ -21,14 +22,18 @@ export interface IUserInfo {
   following: boolean,
   verified: boolean
 }
-export type UserMap = Map<Uid, IUserInfo>
+export interface IUserMap {
+  [key: string]: IUserInfo
+}
 export interface ITimeline {
-  map: Map<any, ITimelineItem>,
+  map: {
+    [key: string]: ITimelineItem
+  },
   list: string[]
 }
 export interface IFeedType {
   timeline: ITimeline,
-  userMap: UserMap
+  userMap: IUserMap
 }
 export interface IStore {
   feed: IFeedType,
