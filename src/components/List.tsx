@@ -15,7 +15,7 @@ import {
   Right,
   ActionSheet
 } from "native-base";
-import { Icon, ToolsBar, LikeButton } from "./HomeWidget";
+import { Icon, ToolsBar, LikeButton, ToolsBar2 } from "./HomeWidget";
 import Colors from "../constants/Colors";
 import { ITimelineItem, IUserInfo } from "../types";
 const FONT = {
@@ -80,91 +80,12 @@ export interface IFeedListItemProps {
   item: ITimelineItem;
   userInfo: IUserInfo;
   onPress?: () => void;
-}
-export function FeedListItem({
-  item,
-  userInfo,
-  onPress = noop,
-  test
-}: IFeedListItemProps) {
-  const toolsBarOpts = [
-    {
-      key: "comment",
-      icon: "comment",
-      label: item.comment_count
-    },
-    {
-      key: "forward",
-      icon: "forward",
-      onPress: () => {
-        return ActionSheet.show(
-          {
-            options: forwordActionOpts,
-            cancelButtonIndex: forwordActionOpts.length - 1
-          },
-          () => {}
-        );
-      },
-      label: item.forward_count
-    },
-    {
-      key: "like",
-      IconCpt: (
-        <LikeButton
-          initialLike={item.is_like}
-          onPress={test}
-          like_count={item.like_count}
-        />
-      )
-    },
-    {
-      key: "upload",
-      icon: "upload",
-      onPress: () => {
-        return ActionSheet.show(
-          {
-            options: shareActionOpts,
-            cancelButtonIndex: shareActionOpts.length - 1
-          },
-          () => {}
-        );
-      }
-    }
-  ];
-  console.log("List render");
-  return (
-    <ListItem onPress={onPress} key={item.key} avatar>
-      <Left>
-        <Thumbnail source={{ uri: userInfo.avatar }} />
-      </Left>
-      <Body style={{ paddingBottom: 0 }}>
-        <View style={styles.titleGroup}>
-          <RNText style={styles.title}>{userInfo.nick_name}</RNText>
-          <Icon name="sign" size={17} color={Colors.tintColor} />
-          <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
-          <RNText style={styles.dot}>·</RNText>
-          <RNText style={styles.time}>19时</RNText>
-          <Right>
-            <TouchableOpacity
-              onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
-            >
-              <Icon name="down" size={17} color={Colors.tabIconDefault} />
-            </TouchableOpacity>
-          </Right>
-        </View>
-        <Text note style={{ lineHeight: 20 }}>
-          {item.jsxText}
-        </Text>
-        {item.pics && (
-          <Image style={styles.image} source={{ uri: item.pics[0] }} />
-        )}
-        <ToolsBar options={toolsBarOpts} />
-      </Body>
-    </ListItem>
-  );
+  likeChange?: any;
+  navigate?: any;
 }
 
-export function ToolsBarCreator(item: any) {
+export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
+  console.log("toolsbar render ", item);
   const toolsBarOpts = [
     {
       key: "comment",
@@ -205,96 +126,109 @@ export function ToolsBarCreator(item: any) {
       }
     }
   ];
-  return function _ToolsBar() {
-    return <ToolsBar options={toolsBarOpts} />;
-  };
+  return <ToolsBar options={toolsBarOpts} />;
 }
-export function FeedListItem_3({
-  item,
-  userInfo,
-  onPress = noop,
-  children
-}: IFeedListItemProps & { children?: any }) {
-  return (
-    <ListItem onPress={onPress} key={item.key} avatar>
-      <Left>
-        <Thumbnail source={{ uri: userInfo.avatar }} />
-      </Left>
-      <Body style={{ paddingBottom: 0 }}>
-        <View style={styles.titleGroup}>
-          <RNText style={styles.title}>{userInfo.nick_name}</RNText>
-          <Icon name="sign" size={17} color={Colors.tintColor} />
-          <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
-          <RNText style={styles.dot}>·</RNText>
-          <RNText style={styles.time}>19时</RNText>
-          <Right>
-            <TouchableOpacity
-              onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
-            >
-              <Icon name="down" size={17} color={Colors.tabIconDefault} />
-            </TouchableOpacity>
-          </Right>
-        </View>
-        <Text note style={{ lineHeight: 20 }}>
-          {item.jsxText}
-        </Text>
-        {item.pics && (
-          <Image style={styles.image} source={{ uri: item.pics[0] }} />
-        )}
-        {children}
-      </Body>
-    </ListItem>
-  );
+
+export class FeedListItemCpt extends React.Component<
+  IFeedListItemProps & { children?: any }
+> {
+  shouldComponentUpdate(nextProps: IFeedListItemProps) {
+    return (
+      this.props.item !== nextProps.item ||
+      this.props.userInfo !== nextProps.userInfo
+    );
+  }
+  componentWillUnmount() {
+    console.log("list unmount");
+  }
+  forwardAction = () => {
+    return ActionSheet.show(
+      {
+        options: forwordActionOpts,
+        cancelButtonIndex: forwordActionOpts.length - 1
+      },
+      () => {}
+    );
+  };
+  uploadAction = () => {
+    return ActionSheet.show(
+      {
+        options: shareActionOpts,
+        cancelButtonIndex: shareActionOpts.length - 1
+      },
+      () => {}
+    );
+  };
+  likeChange = (like: boolean) => {
+    this.props.likeChange(this.props.item.key, like);
+  }
+
+  jumpToArticle = () => {
+    this.props.navigate("article", {
+      uid: this.props.item.uid,
+      aid: this.props.item.key,
+      info: this.props.item
+    });
+  }
+  render() {
+    const { item, userInfo } = this.props;
+
+    return (
+      <ListItem onPress={this.jumpToArticle} key={item.key} avatar>
+        <Left>
+          <Thumbnail source={{ uri: userInfo.avatar }} />
+        </Left>
+        <Body style={{ paddingBottom: 0 }}>
+          <View style={styles.titleGroup}>
+            <RNText style={styles.title}>{userInfo.nick_name}</RNText>
+            <Icon name="sign" size={17} color={Colors.tintColor} />
+            <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
+            <RNText style={styles.dot}>·</RNText>
+            <RNText style={styles.time}>19时</RNText>
+            <Right>
+              <TouchableOpacity
+                onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
+              >
+                <Icon name="down" size={17} color={Colors.tabIconDefault} />
+              </TouchableOpacity>
+            </Right>
+          </View>
+          <Text note style={{ lineHeight: 20 }}>
+            {item.jsxText}
+          </Text>
+          {item.pics && (
+            <Image style={styles.image} source={{ uri: item.pics[0] }} />
+          )}
+          <ToolsBar2>
+            <ToolsBar2.Icon
+              icon={{ name: "comment", size: 20 }}
+              label={item.comment_count}
+            />
+            <ToolsBar2.Icon
+              onPress={this.forwardAction}
+              icon={{ name: "forward", size: 20 }}
+              label={item.forward_count}
+            />
+            <LikeButton
+              onPress={this.likeChange}
+              initialLike={item.is_like}
+              like_count={item.like_count}
+            />
+            <ToolsBar2.Icon
+              onPress={this.uploadAction}
+              icon={{ name: "upload", size: 20 }}
+            />
+          </ToolsBar2>
+        </Body>
+      </ListItem>
+    );
+  }
 }
 export function FeedListItem_2({
   item,
   userInfo,
-  onPress = noop,
-  test
+  onPress = noop
 }: IFeedListItemProps) {
-  const toolsBarOpts = [
-    {
-      key: "comment",
-      icon: "comment"
-    },
-    {
-      key: "forward",
-      icon: "forward",
-      onPress: () => {
-        return ActionSheet.show(
-          {
-            options: forwordActionOpts,
-            cancelButtonIndex: forwordActionOpts.length - 1
-          },
-          () => {}
-        );
-      }
-    },
-    {
-      key: "like",
-      IconCpt: (
-        <LikeButton
-          initialLike={item.is_like}
-          onPress={test}
-          like_count={item.like_count}
-          show_count={false}
-        />
-      )
-    },
-    {
-      key: "upload",
-      icon: "upload",
-      onPress: () => {
-        return ActionSheet.show(
-          {
-            options: shareActionOpts,
-            cancelButtonIndex: shareActionOpts.length - 1
-          },
-          () => {}
-        );
-      }
-    }
-  ];
   return (
     <React.Fragment>
       <View style={[styles.titleGroup, { marginBottom: 15 }]}>
@@ -322,11 +256,6 @@ export function FeedListItem_2({
       {item.pics && (
         <Image style={styles.image} source={{ uri: item.pics[0] }} />
       )}
-      <ToolsBar
-        buttonStyle={{ justifyContent: "center" }}
-        iconSize={22}
-        options={toolsBarOpts}
-      />
     </React.Fragment>
   );
 }

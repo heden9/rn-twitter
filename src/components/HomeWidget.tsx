@@ -127,7 +127,7 @@ export class LikeButton extends React.PureComponent<
 > {
   static defaultProps = {
     onPress: noop
-  }
+  };
   static getDerivedStateFromProps(
     nextProps: ILikeButtonProps,
     prevState: ILikeButtonState
@@ -149,6 +149,20 @@ export class LikeButton extends React.PureComponent<
     super(props);
     this.animation = React.createRef();
   }
+  componentDidUpdate() {
+    this.setAnimationStep()
+  }
+  componentDidMount() {
+    this.setAnimationStep()
+  }
+  setAnimationStep = () => {
+    const { like, like_count } = this.state;
+    if (like) {
+      this.animation.current.play(120, 120);
+    } else {
+      this.animation.current.reset();
+    }
+  }
   toggle = () => {
     const { like, like_count } = this.state;
     if (like) {
@@ -160,7 +174,7 @@ export class LikeButton extends React.PureComponent<
       like: !like,
       like_count: !like ? like_count + 1 : +this.props.like_count
     });
-    this.props.onPress(!like)
+    this.props.onPress(!like);
   };
   render() {
     const { like_count, like } = this.state;
@@ -220,9 +234,7 @@ export function ToolsBar({
 }: IToolsBarProps) {
   return (
     <React.Fragment>
-      {
-        children({options, buttonStyle, iconSize})
-      }
+      {children({ options, buttonStyle, iconSize })}
       <View style={styles.toolsBar}>
         {options.map(item => {
           const { onPress = noop } = item;
@@ -257,3 +269,33 @@ export function ToolsBar({
   );
 }
 
+export function ToolsBar2({
+  buttonStyle = {},
+  iconSize = 20,
+  children
+}: any) {
+  return (
+    <View style={styles.toolsBar}>
+      {React.Children.map(children, (child, i) => {
+        return <View style={styles.toolsBarItem}>{child}</View>;
+      })}
+    </View>
+  );
+}
+ToolsBar2.Icon = (props: any) => {
+  const { onPress, style, icon, label } = props;
+  return (
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={[styles.touchContainer, style]}>
+        {icon && (
+          <Icon
+            name={icon.name}
+            size={icon.size}
+            color={Colors.tabIconDefault}
+          />
+        )}
+        {label && <RNText style={styles.toolsText}>{label}</RNText>}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
