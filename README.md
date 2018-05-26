@@ -17,3 +17,6 @@ $ yarn ios
 $ yarn android
 ```
 
+### screenshots
+
+![](https://github.com/w771854332/rn-twitter/blob/master/screenshots/home.png?raw=true)
