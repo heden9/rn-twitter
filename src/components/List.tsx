@@ -139,7 +139,7 @@ export class FeedListItemCpt extends React.Component<
     );
   }
   componentWillUnmount() {
-    console.log("list unmount");
+    console.log("list unmount", this.props.userInfo.uid);
   }
   forwardAction = () => {
     return ActionSheet.show(
@@ -172,7 +172,7 @@ export class FeedListItemCpt extends React.Component<
   }
   render() {
     const { item, userInfo } = this.props;
-
+    console.log("list render", this.props.userInfo.uid);
     return (
       <ListItem onPress={this.jumpToArticle} key={item.key} avatar>
         <Left>
