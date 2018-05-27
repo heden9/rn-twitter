@@ -19,4 +19,4 @@ $ yarn android
 
 ### screenshots
 
-<img style="width: 200px" src="https://github.com/w771854332/rn-twitter/blob/master/screenshots/home.png?raw=true" />
+<img width="200" src="https://github.com/w771854332/rn-twitter/blob/master/screenshots/home.png?raw=true" />
