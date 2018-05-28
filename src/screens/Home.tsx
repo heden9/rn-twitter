@@ -75,12 +75,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       });
     }, 1000);
   };
-  _test = (aid: any, like: any) => {
-    this.props.dispatch({
-      type: "feed/like_change",
-      payload: { id: aid, like }
-    });
-  };
   _renderItem = ({ item }: any) => {
     const { timelineMap, userMap, navigation, likeChange } = this.props;
     const timelineItem = timelineMap[item];

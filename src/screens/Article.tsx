@@ -4,27 +4,42 @@ import {
   NavigationScreenConfig,
   NavigationStackScreenOptions
 } from "react-navigation";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, PixelRatio } from "react-native";
 import Colors from "../constants/Colors";
 import { FeedListItem_2 } from "../components/List";
-import { ToolsBar2, LikeButton } from '../components/HomeWidget'
+import ReplayInput from "../components/ReplayInput";
+import { ToolsBar2, LikeButton } from "../components/HomeWidget";
 import { connect } from "../utils/dva";
 import { IStore, ITimelineItem, IUserInfo } from "../types";
+import { InputToolbar } from "react-native-gifted-chat";
+const GAP = 10;
+const FONTSIZE = 14;
 const styles = StyleSheet.create({
-  replayContainer: {
-    position: "absolute",
-    bottom: -2,
-    left: 0,
-    right: 0,
-    zIndex: 999,
-    alignItems: "center",
-    backgroundColor: Colors.tabBar,
-    paddingVertical: 20
-  },
+
   cardContainer: {
     backgroundColor: "#fff",
     padding: 16,
     paddingBottom: 0
+  },
+  tipBar: {
+    paddingVertical: GAP,
+    borderTopWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
+    borderBottomWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
+    borderTopColor: "#eee",
+    borderBottomColor: "#eee",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+
+  bold: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: FONTSIZE
+  },
+  text: {
+    fontSize: FONTSIZE,
+    marginLeft: 3,
+    color: Colors.subTitle
   }
 });
 
@@ -67,18 +82,26 @@ class Article extends React.PureComponent<IArticleProps> {
       );
     };
     return (
-      <Container>
+      <View style={{ flex: 1 }}>
         <Content>
           <View style={styles.cardContainer}>
             <FeedListItem_2 item={articleInfo} userInfo={userInfo} />
-            <Text>{articleInfo.like_count}喜欢</Text>
-            <ToolsBar2>
-              <ToolsBar2.Icon
-                icon={{ name: "comment", size: 20 }}
-              />
+            <Text style={[styles.text, { margin: 0, marginVertical: GAP }]}>
+              2018/5/19 上午1:02
+            </Text>
+            <View style={styles.tipBar}>
+              <Text style={styles.bold}>{articleInfo.forward_count}</Text>
+              <Text style={styles.text}>转推</Text>
+              <Text style={[styles.bold, { marginLeft: 5 }]}>
+                {articleInfo.like_count}
+              </Text>
+              <Text style={styles.text}>喜欢</Text>
+            </View>
+            <ToolsBar2 buttonStyle={{ justifyContent: "center" }}>
+              <ToolsBar2.Icon icon={{ name: "comment", size: 23 }} />
               <ToolsBar2.Icon
                 onPress={forwardAction}
-                icon={{ name: "forward", size: 20 }}
+                icon={{ name: "forward", size: 23 }}
               />
               <LikeButton
                 show_count={false}
@@ -88,15 +111,16 @@ class Article extends React.PureComponent<IArticleProps> {
               />
               <ToolsBar2.Icon
                 onPress={uploadAction}
-                icon={{ name: "upload", size: 20 }}
+                icon={{ name: "upload", size: 23 }}
               />
             </ToolsBar2>
           </View>
         </Content>
-        <View style={styles.replayContainer}>
-          <Text>replay</Text>
-        </View>
-      </Container>
+        {/* <View style={styles.replayContainer}>
+          <ReplayInput />
+        </View> */}
+          <InputToolbar/>
+      </View>
     );
   }
 }

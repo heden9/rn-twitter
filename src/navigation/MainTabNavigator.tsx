@@ -89,7 +89,6 @@ const BottomTabs = createBottomTabNavigator(
       showIcon: true,
       style: {
         backgroundColor: Colors.tabBar,
-        borderTopWidth: 1,
         borderTopColor: Colors.borderColor
       }
     }
@@ -101,7 +100,7 @@ const TabsInDrawer = createDrawerNavigator({
     navigationOptions: {
       drawer: () => ({
         label: "Simple Tabs"
-      })
+      }),
     }
   }
 });

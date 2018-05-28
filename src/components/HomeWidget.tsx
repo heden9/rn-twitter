@@ -150,10 +150,10 @@ export class LikeButton extends React.PureComponent<
     this.animation = React.createRef();
   }
   componentDidUpdate() {
-    this.setAnimationStep()
+    this.setAnimationStep();
   }
   componentDidMount() {
-    this.setAnimationStep()
+    this.setAnimationStep();
   }
   setAnimationStep = () => {
     const { like, like_count } = this.state;
@@ -162,7 +162,7 @@ export class LikeButton extends React.PureComponent<
     } else {
       this.animation.current.reset();
     }
-  }
+  };
   toggle = () => {
     const { like, like_count } = this.state;
     if (like) {
@@ -178,11 +178,11 @@ export class LikeButton extends React.PureComponent<
   };
   render() {
     const { like_count, like } = this.state;
-    const { show_count = true, style = styles.touchContainer } = this.props;
+    const { show_count = true, style } = this.props;
     const likeStyle = like ? styles.like : {};
     return (
       <TouchableWithoutFeedback onPress={this.toggle}>
-        <View style={style}>
+        <View style={[styles.touchContainer, style]}>
           {MyLottie({
             _ref: this.animation,
             source: require("../assets/lottie/heart.json")
@@ -269,15 +269,17 @@ export function ToolsBar({
   );
 }
 
-export function ToolsBar2({
-  buttonStyle = {},
-  iconSize = 20,
-  children
-}: any) {
+export function ToolsBar2({ buttonStyle = {}, iconSize = 20, children }: any) {
   return (
     <View style={styles.toolsBar}>
-      {React.Children.map(children, (child, i) => {
-        return <View style={styles.toolsBarItem}>{child}</View>;
+      {React.Children.map(children, (child: any, i) => {
+        return (
+          <View style={styles.toolsBarItem}>
+            {React.cloneElement(child, {
+              style: buttonStyle
+            })}
+          </View>
+        );
       })}
     </View>
   );

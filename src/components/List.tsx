@@ -130,7 +130,7 @@ export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
 }
 
 export class FeedListItemCpt extends React.Component<
-  IFeedListItemProps & { children?: any }
+  IFeedListItemProps
 > {
   shouldComponentUpdate(nextProps: IFeedListItemProps) {
     return (
@@ -231,7 +231,7 @@ export function FeedListItem_2({
 }: IFeedListItemProps) {
   return (
     <React.Fragment>
-      <View style={[styles.titleGroup, { marginBottom: 15 }]}>
+      <View style={[styles.titleGroup, { marginBottom: 20 }]}>
         <Thumbnail source={{ uri: userInfo.avatar }} />
         <View style={{ flex: 1, marginLeft: 20 }}>
           <View style={styles.titleGroup}>
