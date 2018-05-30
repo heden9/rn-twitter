@@ -15,4 +15,5 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
+  inputColor: 'rgb(100, 118, 132)'
 };

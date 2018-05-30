@@ -15,7 +15,7 @@ import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
 const TabBottom = require("../components/TabBottom").default;
-
+const { ExpoConfigView } = require("@expo/samples");
 const createTabScreen = (
   routeConfigMap: NavigationRouteConfigMap,
   icon: string
@@ -42,11 +42,11 @@ const HomeStack = createTabScreen(
   {
     home: {
       screen: Home,
-      path: '/'
+      path: "/"
     },
     article: {
       screen: Article,
-      path: '/article/:id'
+      path: "/article/:id"
     }
   },
   "home"
@@ -59,7 +59,7 @@ const SearchStack = createTabScreen(
 );
 const SettingsStack = createTabScreen(
   {
-    n: SettingsScreen
+    n: ExpoConfigView
   },
   "n"
 );
@@ -73,7 +73,7 @@ const BottomTabs = createBottomTabNavigator(
   {
     HomeStack: {
       screen: HomeStack,
-      path: '/'
+      path: "/"
     },
     SearchStack,
     SettingsStack,
@@ -100,20 +100,25 @@ const TabsInDrawer = createDrawerNavigator({
     navigationOptions: {
       drawer: () => ({
         label: "Simple Tabs"
-      }),
+      })
     }
   }
 });
 export default createStackNavigator(
   {
-    drawer: TabsInDrawer,
+    drawer: {
+      screen: TabsInDrawer,
+      navigationOptions: {
+        header: null
+      }
+    },
     tweet: Tweet
   },
   {
     // initialRouteName: "drawer",
-    navigationOptions: {
-      header: null
-    },
+    // navigationOptions: {
+    //   header: null
+    // },
     mode: "modal"
   }
 );

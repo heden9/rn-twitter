@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   },
   tipBar: {
     paddingVertical: GAP,
-    borderTopWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
-    borderBottomWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     borderTopColor: "#eee",
     borderBottomColor: "#eee",
     flexDirection: "row",
@@ -117,9 +117,10 @@ class Article extends React.PureComponent<IArticleProps> {
           </View>
         </Content>
         {/* <View style={styles.replayContainer}>
-          <ReplayInput />
+
         </View> */}
-          <InputToolbar/>
+        <ReplayInput />
+          {/* <InputToolbar/> */}
       </View>
     );
   }

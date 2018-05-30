@@ -13,11 +13,16 @@ import {
   NavigationScreenConfig,
   NavigationStackScreenOptions
 } from "react-navigation";
-import { Text } from "react-native";
-
+import { Text, StyleSheet } from "react-native";
+const styles = StyleSheet.create({
+  button: {
+    color: '#fff'
+  }
+})
 export default class Tweet extends React.PureComponent {
   static navigationOptions = {
-    title: "发推"
+    title: "发推",
+    header: null,
   };
   render() {
     return (
@@ -25,8 +30,8 @@ export default class Tweet extends React.PureComponent {
         <Header style={{ backgroundColor: '#fff'}}>
           <Left />
           <Right >
-            <Button rounded info onPress={() => this.props.navigation.navigate('article')}>
-              <Text>发推</Text>
+            <Button rounded info onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.button}>发推</Text>
             </Button>
           </Right>
         </Header>
