@@ -245,4 +245,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withDimensions(TabBarBottom);
+export default withDimensions(TabBarBottom)
+

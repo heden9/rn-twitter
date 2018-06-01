@@ -28,7 +28,7 @@ export default {
 
   // Button
   btnFontFamily: platform === "ios" ? "System" : "Roboto_medium",
-  btnDisabledBg: "#b5b5b5",
+  btnDisabledBg: "rgb(29, 161, 242)",
   buttonPadding: 6,
   get btnPrimaryBg() {
     return this.brandPrimary;
@@ -96,7 +96,7 @@ export default {
   checkboxTickColor: "#fff",
 
   // Color
-  brandPrimary: platform === "ios" ? "#007aff" : "#3F51B5",
+  brandPrimary: platform === "ios" ? "rgb(29, 161, 242)" : "rgb(29, 161, 242)",
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",

@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 15,
-    marginLeft: margin,
     overflow: "hidden"
   },
   pen: {
@@ -93,11 +92,11 @@ const styles = StyleSheet.create({
   }
 });
 const noop = () => {};
-export function Avatar({ onPress = noop }) {
+export function Avatar({ onPress = noop, width = 30, style = {} }) {
   return (
-    <TouchableHighlight style={styles.button} onPress={onPress}>
+    <TouchableHighlight style={[styles.button,{ borderRadius: width/2 }, style]} onPress={onPress}>
       <Image
-        style={styles.image}
+        style={[styles.image, { width, height: width }]}
         source={require("../assets/images/avatar.jpg")}
       />
     </TouchableHighlight>

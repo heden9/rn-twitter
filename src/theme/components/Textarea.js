@@ -15,7 +15,7 @@ export default (variables = variable) => {
     color: variables.textColor,
     paddingLeft: 10,
     paddingRight: 5,
-    fontSize: 15,
+    fontSize: 18,
     textAlignVertical: "top"
   };
 

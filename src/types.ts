@@ -35,6 +35,13 @@ export interface IFeedType {
   timeline: ITimeline,
   userMap: IUserMap
 }
+
+export interface ITweetType {
+  tmpContent: string
+}
 export interface IStore {
   feed: IFeedType,
+  tweet: ITweetType
 }
+
+

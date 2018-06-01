@@ -4,18 +4,25 @@ import {
   NavigationScreenConfig,
   NavigationStackScreenOptions
 } from "react-navigation";
-import { Text, StyleSheet, View, PixelRatio } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  PixelRatio,
+  TextInput,
+  Button,
+  ScrollView
+} from "react-native";
 import Colors from "../constants/Colors";
 import { FeedListItem_2 } from "../components/List";
-import ReplayInput from "../components/ReplayInput";
+import ReplayInput from '../components/ReplayInput';
 import { ToolsBar2, LikeButton } from "../components/HomeWidget";
 import { connect } from "../utils/dva";
 import { IStore, ITimelineItem, IUserInfo } from "../types";
-import { InputToolbar } from "react-native-gifted-chat";
+// import { InputToolbar } from "react-native-gifted-chat";
 const GAP = 10;
 const FONTSIZE = 14;
 const styles = StyleSheet.create({
-
   cardContainer: {
     backgroundColor: "#fff",
     padding: 16,
@@ -40,6 +47,26 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE,
     marginLeft: 3,
     color: Colors.subTitle
+  },
+
+  textInputView: {
+    padding: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  textInput: {
+    flexGrow: 1,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#CCC",
+    padding: 10,
+    fontSize: 16,
+    marginRight: 10,
+    textAlignVertical: "top"
+  },
+  textInputButton: {
+    flexShrink: 1
   }
 });
 
@@ -115,12 +142,9 @@ class Article extends React.PureComponent<IArticleProps> {
               />
             </ToolsBar2>
           </View>
+          <View style={{ height: 100 }} />
         </Content>
-        {/* <View style={styles.replayContainer}>
-
-        </View> */}
         <ReplayInput />
-          {/* <InputToolbar/> */}
       </View>
     );
   }

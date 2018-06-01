@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch: any) {
     likeChange(id: string, like: boolean) {
       dispatch({ type: "feed/like_change", payload: { id, like } });
     }
-  }
+  };
 }
 interface IHomeProps {
   navigation: any;
@@ -58,7 +58,9 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     const { openDrawer, navigate }: any = props.navigation;
     return {
       title: "主页",
-      headerLeft: <Avatar onPress={() => openDrawer()} />,
+      headerLeft: (
+        <Avatar style={{ marginLeft: 20 }} onPress={() => openDrawer()} />
+      ),
       headerRight: <TweetEntry onPress={() => navigate("tweet")} />
     };
   };

@@ -10,7 +10,8 @@
     "ios": "exp ios",
     "android": "exp android",
     "precommit": "yarn run lint",
-    "lint": "tslint 'src/**/*.ts{,x}' --fix"
+    "lint": "tslint 'src/**/*.ts{,x}' --fix",
+    "debug": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" npm start"
   },
   "jest": {
     "preset": "jest-expo"

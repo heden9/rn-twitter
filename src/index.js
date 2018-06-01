@@ -9,12 +9,13 @@ import theme from "./theme/variables/commonColor";
 import Colors from "./constants/Colors";
 import appModel from "./models/app";
 import feedModel from "./models/feed";
+import tweetModel from "./models/tweet";
 import useImmer from "dva-immer";
 import dva from "./utils/dva";
 const app = dva({
   ...useImmer(),
   initialState: {},
-  models: [appModel, feedModel]
+  models: [appModel, feedModel, tweetModel]
 });
 class App extends React.Component {
   state = {

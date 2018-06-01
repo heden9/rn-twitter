@@ -14,7 +14,8 @@ import Tweet from "../screens/Tweet";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
-const TabBottom = require("../components/TabBottom").default;
+const { default: TabBarBottom } = require("../components/TabBottom");
+
 const { ExpoConfigView } = require("@expo/samples");
 const createTabScreen = (
   routeConfigMap: NavigationRouteConfigMap,
@@ -80,7 +81,7 @@ const BottomTabs = createBottomTabNavigator(
     LetterStack
   },
   {
-    tabBarComponent: TabBottom,
+    tabBarComponent: TabBarBottom,
     // activeTintColor: '#F44336',
     animationEnabled: false,
     swipeEnabled: false,
@@ -115,10 +116,13 @@ export default createStackNavigator(
     tweet: Tweet
   },
   {
-    // initialRouteName: "drawer",
+    // initialRouteName: "tweet",
     // navigationOptions: {
     //   header: null
     // },
-    mode: "modal"
+    mode: "modal",
+    cardStyle: {
+      backgroundColor: Colors.bgColor
+    }
   }
 );
