@@ -12,7 +12,7 @@ import {
 import { Item, Input } from "native-base";
 import Colors from "../constants/Colors";
 import isIPX from "../utils/isIpx";
-const HEIGHT = isIPX ? 80 : 49;
+const HEIGHT = isIPX ? 83 : 49;
 interface IReplayInputProps {
   style?: any;
 }

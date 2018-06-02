@@ -3,13 +3,14 @@ import {
   StyleSheet,
   View,
   Text as RNText,
-  Image,
-  TouchableOpacity
+  Image as RNImage,
+  TouchableOpacity,
+  TouchableHighlight
 } from "react-native";
 import {
   ListItem,
   Left,
-  Thumbnail,
+  Thumbnail as NThumbnail,
   Body,
   Text,
   Right,
@@ -18,6 +19,11 @@ import {
 import { Icon, ToolsBar, LikeButton, ToolsBar2 } from "./HomeWidget";
 import Colors from "../constants/Colors";
 import { ITimelineItem, IUserInfo } from "../types";
+import LightBox from "react-native-lightbox";
+import Carousel from "react-native-looped-carousel";
+import { Image } from "react-native-expo-image-cache";
+import Layout from "../constants/Layout";
+import { ImageProps } from "react-native";
 const FONT = {
   fontSize: 16,
   color: Colors.subTitle
@@ -83,9 +89,32 @@ export interface IFeedListItemProps {
   likeChange?: any;
   navigate?: any;
 }
-
+// const renderCarousel = () => (
+//   <Carousel
+//     autoplay={false}
+//     style={{ width: Layout.window.width, height: Layout.window.height }}
+//   >
+//     {new Array(4).fill(1).map((i, k) => (
+//       <Image
+//         key={k}
+//         style={{ flex: 1 }}
+//         resizeMode="contain"
+//         source={{
+//           uri: "http://lorempixel.com/640/480/city"
+//         }}
+//       />
+//     ))}
+//   </Carousel>
+// );
+function Thumbnail(props: ImageProps & { onPress?: () => void }) {
+  const { onPress = noop } = props;
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <NThumbnail {...props}/>
+    </TouchableOpacity>
+  )
+}
 export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
-  console.log("toolsbar render ", item);
   const toolsBarOpts = [
     {
       key: "comment",
@@ -129,9 +158,7 @@ export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
   return <ToolsBar options={toolsBarOpts} />;
 }
 
-export class FeedListItemCpt extends React.Component<
-  IFeedListItemProps
-> {
+export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
   shouldComponentUpdate(nextProps: IFeedListItemProps) {
     return (
       this.props.item !== nextProps.item ||
@@ -161,26 +188,30 @@ export class FeedListItemCpt extends React.Component<
   };
   likeChange = (like: boolean) => {
     this.props.likeChange(this.props.item.key, like);
+  };
+  jumpToPerson = () => {
+    this.props.navigate("person", {
+      userInfo: this.props.userInfo,
+      uid: this.props.item.uid
+    });
   }
-
   jumpToArticle = () => {
     this.props.navigate("article", {
       uid: this.props.item.uid,
       aid: this.props.item.key,
       info: this.props.item
     });
-  }
+  };
   render() {
     const { item, userInfo } = this.props;
-    console.log("list render", this.props.userInfo.uid);
     return (
       <ListItem onPress={this.jumpToArticle} key={item.key} avatar>
         <Left>
-          <Thumbnail source={{ uri: userInfo.avatar }} />
+          <Thumbnail onPress={this.jumpToPerson} source={{ uri: userInfo.avatar }} />
         </Left>
         <Body style={{ paddingBottom: 0 }}>
           <View style={styles.titleGroup}>
-            <RNText style={styles.title}>{userInfo.nick_name}</RNText>
+            <RNText style={styles.title} onPress={this.jumpToPerson}>{userInfo.nick_name}</RNText>
             <Icon name="sign" size={17} color={Colors.tintColor} />
             <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
             <RNText style={styles.dot}>·</RNText>
@@ -197,7 +228,11 @@ export class FeedListItemCpt extends React.Component<
             {item.jsxText}
           </Text>
           {item.pics && (
-            <Image style={styles.image} source={{ uri: item.pics[0] }} />
+            <LightBox
+              underlayColor="transparent" /*renderContent={renderCarousel}*/
+            >
+              <Image style={styles.image} uri={item.pics[0]} />
+            </LightBox>
           )}
           <ToolsBar2>
             <ToolsBar2.Icon
@@ -232,10 +267,10 @@ export function FeedListItem_2({
   return (
     <React.Fragment>
       <View style={[styles.titleGroup, { marginBottom: 20 }]}>
-        <Thumbnail source={{ uri: userInfo.avatar }} />
+        <Thumbnail onPress={onPress} source={{ uri: userInfo.avatar }} />
         <View style={{ flex: 1, marginLeft: 20 }}>
           <View style={styles.titleGroup}>
-            <RNText style={styles.title}>{userInfo.nick_name}</RNText>
+            <RNText style={styles.title} onPress={onPress}>{userInfo.nick_name}</RNText>
             <Icon name="sign" size={17} color={Colors.tintColor} />
             <Right>
               <TouchableOpacity
@@ -254,7 +289,9 @@ export function FeedListItem_2({
         {item.jsxText}
       </RNText>
       {item.pics && (
-        <Image style={styles.image} source={{ uri: item.pics[0] }} />
+        <LightBox underlayColor="transparent">
+          <Image style={styles.image} uri={item.pics[0]} />
+        </LightBox>
       )}
     </React.Fragment>
   );

@@ -267,7 +267,6 @@ export function ToolsBar({
     </React.Fragment>
   );
 }
-
 export function ToolsBar2({ buttonStyle = {}, iconSize = 20, children }: any) {
   return (
     <View style={styles.toolsBar}>

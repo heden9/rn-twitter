@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#fff",
     borderBottomWidth: 0,
-    paddingLeft: GAP,
-    paddingRight: GAP
     // paddingBottom: 20
   },
   button: {
@@ -58,8 +56,7 @@ export interface ITweetProps {
   content: string;
 }
 
-const HeaderHeight = Platform.OS === "ios" ? (isIPX ? 88 : 64) : 56;
-const ContainerHeight = Layout.window.height - HeaderHeight;
+const ContainerHeight = Layout.window.height - Layout.HeaderHeight;
 
 interface IContentBoxProps {
   content?: string;
@@ -67,7 +64,6 @@ interface IContentBoxProps {
 }
 
 function mapStateToProps({ tweet }: IStore) {
-  console.log(tweet);
   return {
     content: tweet.tmpContent
   };
@@ -119,7 +115,6 @@ class Tweet extends React.PureComponent<ITweetProps> {
   };
   render() {
     const { content } = this.props;
-    console.log("tweet", content);
     return (
       <Container>
         <Header style={styles.header}>

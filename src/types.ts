@@ -1,6 +1,6 @@
 
 import * as React from 'react'
-type Uid = string;
+export type Uid = string;
 export type JsxText = string | JSX.Element
 export interface ITimelineItem {
   key: string,

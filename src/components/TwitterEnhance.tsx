@@ -27,7 +27,6 @@ export default class Entrance extends Component {
         show: false
       });
     }, 3300);
-    console.log(123);
   }
 
   render() {

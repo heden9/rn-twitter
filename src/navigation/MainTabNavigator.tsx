@@ -11,6 +11,7 @@ import { TwitterIcon } from "../components/HomeWidget";
 import Home from "../screens/Home";
 import Article from "../screens/Article";
 import Tweet from "../screens/Tweet";
+import Person from "../screens/Person";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
@@ -19,16 +20,19 @@ const { default: TabBarBottom } = require("../components/TabBottom");
 const { ExpoConfigView } = require("@expo/samples");
 const createTabScreen = (
   routeConfigMap: NavigationRouteConfigMap,
-  icon: string
+  icon: string,
+  config?: any
 ) => {
   const TabStackScreen = createStackNavigator(routeConfigMap, {
     navigationOptions: {
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: Colors.tabBar,
         borderBottomWidth: 1,
         borderBottomColor: Colors.borderColor
       }
-    }
+    },
+    ...config
   });
   TabStackScreen.navigationOptions = {
     tabBarLabel: icon,
@@ -39,46 +43,46 @@ const createTabScreen = (
   };
   return TabStackScreen;
 };
-const HomeStack = createTabScreen(
-  {
-    home: {
-      screen: Home,
-      path: "/"
-    },
-    article: {
-      screen: Article,
-      path: "/article/:id"
-    }
-  },
-  "home"
-);
-const SearchStack = createTabScreen(
-  {
-    search: LinksScreen
-  },
-  "search"
-);
-const SettingsStack = createTabScreen(
-  {
-    n: ExpoConfigView
-  },
-  "n"
-);
-const LetterStack = createTabScreen(
-  {
-    letter: SettingsScreen
-  },
-  "letter"
-);
 const BottomTabs = createBottomTabNavigator(
   {
     HomeStack: {
-      screen: HomeStack,
+      screen: createTabScreen(
+        {
+          home: {
+            screen: Home,
+            path: "/"
+          },
+          article: {
+            screen: Article,
+            path: "/article/:id"
+          },
+          person: {
+            screen: Person,
+            path: "/person/:id"
+          }
+        },
+        "home",
+      ),
       path: "/"
     },
-    SearchStack,
-    SettingsStack,
-    LetterStack
+    SearchStack: createTabScreen(
+      {
+        search: LinksScreen
+      },
+      "search"
+    ),
+    SettingsStack: createTabScreen(
+      {
+        n: ExpoConfigView
+      },
+      "n"
+    ),
+    LetterStack: createTabScreen(
+      {
+        letter: SettingsScreen
+      },
+      "letter"
+    )
   },
   {
     tabBarComponent: TabBarBottom,
@@ -95,16 +99,20 @@ const BottomTabs = createBottomTabNavigator(
     }
   }
 );
-const TabsInDrawer = createDrawerNavigator({
-  SimpleTabs: {
-    screen: BottomTabs,
-    navigationOptions: {
-      drawer: () => ({
-        label: "Simple Tabs"
-      })
+const TabsInDrawer = createDrawerNavigator(
+  {
+    SimpleTabs: {
+      screen: BottomTabs,
+      navigationOptions: {
+        gesturesEnabled: false,
+        title: "Reservering"
+      }
     }
+  },
+  {
+    drawerLockMode: "locked-closed"
   }
-});
+);
 export default createStackNavigator(
   {
     drawer: {

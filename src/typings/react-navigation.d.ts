@@ -10,7 +10,7 @@ declare module 'react-navigation' {
   ): NavigationContainer;
   function createDrawerNavigator(
     routeConfigMap: NavigationRouteConfigMap,
-    drawerConfig?: DrawerNavigatorConfig,
+    drawerConfig?: DrawerNavigatorConfig & { drawerLockMode?: 'unlocked' | 'locked-closed' | 'locked-open' },
   ): NavigationContainer;
   function createSwitchNavigator(
     routeConfigMap: NavigationRouteConfigMap,

@@ -97,7 +97,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   render() {
     const { refreshing } = this.state;
     const { timelineList, timelineMap } = this.props;
-    console.log("home render");
     return (
       <Container>
         <FlatList

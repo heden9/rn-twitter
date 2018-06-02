@@ -18,7 +18,7 @@ import { FeedListItem_2 } from "../components/List";
 import ReplayInput from '../components/ReplayInput';
 import { ToolsBar2, LikeButton } from "../components/HomeWidget";
 import { connect } from "../utils/dva";
-import { IStore, ITimelineItem, IUserInfo } from "../types";
+import { IStore, ITimelineItem, IUserInfo, Uid } from "../types";
 // import { InputToolbar } from "react-native-gifted-chat";
 const GAP = 10;
 const FONTSIZE = 14;
@@ -75,6 +75,7 @@ interface IArticleProps {
   articleInfo: ITimelineItem;
   userInfo: IUserInfo;
   likeChange: any;
+  uid: Uid;
 }
 const forwordActionOpts = ["转推", "带评论转推", "取消"];
 const shareActionOpts = [
@@ -88,31 +89,37 @@ class Article extends React.PureComponent<IArticleProps> {
     title: "推文"
   };
   componentDidMount() {}
+  forwardAction = () => {
+    return ActionSheet.show(
+      {
+        options: forwordActionOpts,
+        cancelButtonIndex: forwordActionOpts.length - 1
+      },
+      () => {}
+    );
+  };
+  uploadAction = () => {
+    return ActionSheet.show(
+      {
+        options: shareActionOpts,
+        cancelButtonIndex: shareActionOpts.length - 1
+      },
+      () => {}
+    );
+  };
+  jumpToPerson = () => {
+    this.props.navigation.navigate("person", {
+      userInfo: this.props.userInfo,
+      uid: this.props.uid
+    });
+  }
   render() {
     const { articleInfo, userInfo, likeChange } = this.props;
-    const forwardAction = () => {
-      return ActionSheet.show(
-        {
-          options: forwordActionOpts,
-          cancelButtonIndex: forwordActionOpts.length - 1
-        },
-        () => {}
-      );
-    };
-    const uploadAction = () => {
-      return ActionSheet.show(
-        {
-          options: shareActionOpts,
-          cancelButtonIndex: shareActionOpts.length - 1
-        },
-        () => {}
-      );
-    };
     return (
       <View style={{ flex: 1 }}>
-        <Content>
+        <ScrollView style={{ flex: 1 }} keyboardDismissMode="on-drag">
           <View style={styles.cardContainer}>
-            <FeedListItem_2 item={articleInfo} userInfo={userInfo} />
+            <FeedListItem_2 onPress={this.jumpToPerson} item={articleInfo} userInfo={userInfo} />
             <Text style={[styles.text, { margin: 0, marginVertical: GAP }]}>
               2018/5/19 上午1:02
             </Text>
@@ -127,7 +134,7 @@ class Article extends React.PureComponent<IArticleProps> {
             <ToolsBar2 buttonStyle={{ justifyContent: "center" }}>
               <ToolsBar2.Icon icon={{ name: "comment", size: 23 }} />
               <ToolsBar2.Icon
-                onPress={forwardAction}
+                onPress={this.forwardAction}
                 icon={{ name: "forward", size: 23 }}
               />
               <LikeButton
@@ -137,13 +144,13 @@ class Article extends React.PureComponent<IArticleProps> {
                 initialLike={articleInfo.is_like}
               />
               <ToolsBar2.Icon
-                onPress={uploadAction}
+                onPress={this.uploadAction}
                 icon={{ name: "upload", size: 23 }}
               />
             </ToolsBar2>
           </View>
           <View style={{ height: 100 }} />
-        </Content>
+        </ScrollView>
         <ReplayInput />
       </View>
     );
@@ -161,7 +168,8 @@ function mapStateToProps({ feed }: IStore, props: IArticleProps) {
   const { aid, uid } = props.navigation.state.params;
   return {
     articleInfo: feed.timeline.map[aid],
-    userInfo: feed.userMap[uid]
+    userInfo: feed.userMap[uid],
+    uid
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

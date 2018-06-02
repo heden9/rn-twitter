@@ -361,8 +361,8 @@ export default (variables = variable) => {
     flexDirection: "row",
     // paddingHorizontal: 10,
     paddingLeft:
-      platform === "ios" && variables.platformStyle !== "material" ? 6 : 10,
-    paddingRight: 10,
+      platform === "ios" && variables.platformStyle !== "material" ? 15 : 15,
+    paddingRight: 15,
     justifyContent: "center",
     paddingTop: platform === "ios" ? (variables.isIphoneX ? 39 : 18) : 0,
     borderBottomWidth:
