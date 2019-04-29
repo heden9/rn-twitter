@@ -1,40 +1,33 @@
 import React from "react";
 import {
   Container,
-  Content,
   Header,
   Left,
-  Body,
-  Title,
   Right,
   Text,
   Button,
   Textarea
 } from "native-base";
 import {
-  NavigationScreenConfig,
-  NavigationStackScreenOptions
-} from "react-navigation";
-import {
   Text as RNText,
   StyleSheet,
   TouchableOpacity,
   View,
-  ScrollView,
-  Platform
+  ScrollView
 } from "react-native";
 import { Icon } from "../components/HomeWidget";
 import { connect } from "../utils/dva";
 import { IStore } from "../types";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
-import isIPX from "../utils/isIpx";
 import { Avatar } from "../components/HomeWidget";
+import { NavigationStackRouterConfig } from "react-navigation";
+import { SafeAreaView } from "react-navigation";
 const GAP = 15;
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#fff",
-    borderBottomWidth: 0,
+    borderBottomWidth: 0
     // paddingBottom: 20
   },
   button: {
@@ -54,6 +47,7 @@ const styles = StyleSheet.create({
 export interface ITweetProps {
   navigation: any;
   content: string;
+  goBack: any;
 }
 
 const ContainerHeight = Layout.window.height - Layout.HeaderHeight;
@@ -68,13 +62,7 @@ function mapStateToProps({ tweet }: IStore) {
     content: tweet.tmpContent
   };
 }
-function mapDispatchToProps(dispatch: any) {
-  return {
-    onChange(tmpContent: string) {
-      dispatch({ type: "tweet/save", payload: { tmpContent } });
-    }
-  };
-}
+
 class ContentBox extends React.Component<IContentBoxProps> {
   shouldComponentUpdate() {
     return false;
@@ -106,47 +94,79 @@ class ContentBox extends React.Component<IContentBoxProps> {
     );
   }
 }
-const ConnectedBox = connect(mapStateToProps, mapDispatchToProps)(ContentBox);
+const ConnectedBox = connect(
+  mapStateToProps,
+  dispatch => {
+    return {
+      onChange(tmpContent: string) {
+        dispatch({ type: "tweet/save", payload: { tmpContent } });
+      }
+    };
+  }
+)(ContentBox);
 
 class Tweet extends React.PureComponent<ITweetProps> {
-  static navigationOptions = {
+  static navigationOptions: NavigationStackRouterConfig["navigationOptions"] = {
     title: "发推",
-    header: null
+    header: null,
+    headerTransparent: true,
+    headerLeft: null,
   };
   render() {
-    const { content } = this.props;
+    const { content, goBack } = this.props;
     return (
       <Container>
-        <Header style={styles.header}>
-          <Left>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon
-                name={"x"}
-                size={24}
-                style={{ marginBottom: -3 }}
-                color={"rgb(29, 161, 242)"}
-              />
-            </TouchableOpacity>
-          </Left>
-          <Right>
-            <Button style={{ height: 34, marginRight: 0 }} transparent>
-              <Text style={{ color: "rgb(29, 161, 242)" }}>草稿</Text>
-            </Button>
-            <Button
-              disabled={!content}
-              style={styles.button}
-              info
-              onPress={() => this.props.navigation.goBack()}
-            >
-              <RNText style={styles.buttonText}>发推</RNText>
-            </Button>
-          </Right>
-        </Header>
-        <ScrollView style={{ flex: 1 }}>
-          <ConnectedBox />
-        </ScrollView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+          <Header
+            style={{
+              backgroundColor: "#fff",
+              borderBottomWidth: 0
+            }}
+          >
+            <Left>
+              <TouchableOpacity onPress={goBack}>
+                <Icon
+                  name={"x"}
+                  size={24}
+                  style={{ marginBottom: -3 }}
+                  color={"rgb(29, 161, 242)"}
+                />
+              </TouchableOpacity>
+            </Left>
+            <Right>
+              <Button style={{ height: 34, marginRight: 0 }} transparent>
+                <Text style={{ color: "rgb(29, 161, 242)" }}>草稿</Text>
+              </Button>
+              <Button
+                disabled={!content}
+                style={{
+                  width: 56,
+                  borderRadius: 20,
+                  height: 34
+                }}
+                info
+                onPress={goBack}
+              >
+                <RNText style={styles.buttonText}>发推</RNText>
+              </Button>
+            </Right>
+          </Header>
+
+          <ScrollView style={{ flex: 1 }}>
+            <ConnectedBox />
+          </ScrollView>
+        </SafeAreaView>
       </Container>
     );
   }
 }
-export default connect(mapStateToProps)(Tweet);
+export default connect(
+  mapStateToProps,
+  (_, props: ITweetProps) => {
+    return {
+      goBack() {
+        props.navigation.goBack();
+      }
+    };
+  }
+)(Tweet);

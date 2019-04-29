@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import {
+  createAppContainer,
   createStackNavigator,
   createDrawerNavigator,
   createBottomTabNavigator,
-  NavigationRouteConfig,
   NavigationRouteConfigMap
 } from "react-navigation";
 import Colors from "../constants/Colors";
@@ -33,7 +33,7 @@ const createTabScreen = (
       }
     },
     ...config
-  });
+  })
   TabStackScreen.navigationOptions = {
     tabBarLabel: icon,
     showIcon: true,
@@ -98,25 +98,25 @@ const BottomTabs = createBottomTabNavigator(
       }
     }
   }
-);
-const TabsInDrawer = createDrawerNavigator(
-  {
-    SimpleTabs: {
-      screen: BottomTabs,
-      navigationOptions: {
-        gesturesEnabled: false,
-        title: "Reservering"
-      }
-    }
-  },
-  {
-    drawerLockMode: "locked-closed"
-  }
-);
-export default createStackNavigator(
+)
+// const TabsInDrawer = createAppContainer(createDrawerNavigator(
+//   {
+//     SimpleTabs: {
+//       screen: ,
+//       navigationOptions: {
+//         gesturesEnabled: false,
+//         title: "Reservering"
+//       }
+//     }
+//   },
+//   // {
+//   //   drawerLockMode: "locked-closed"
+//   // }
+// ));
+export default createAppContainer(createStackNavigator(
   {
     drawer: {
-      screen: TabsInDrawer,
+      screen: BottomTabs,
       navigationOptions: {
         header: null
       }
@@ -133,4 +133,4 @@ export default createStackNavigator(
       backgroundColor: Colors.bgColor
     }
   }
-);
+));

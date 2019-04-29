@@ -1,6 +1,6 @@
 import React from "react";
 import { Animated, StyleSheet, View, Platform } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
+import { SafeAreaView } from 'react-navigation';
 import TouchableBounce from "react-native-touchable-bounce";
 import CrossFadeIcon from "react-navigation-tabs/dist/views/CrossFadeIcon";
 import withDimensions from "react-navigation-tabs/dist/utils/withDimensions";
@@ -135,7 +135,6 @@ class TabBarBottom extends React.Component {
       navigation,
       activeBackgroundColor,
       inactiveBackgroundColor,
-      onTabPress,
       jumpTo,
       style,
       tabStyle

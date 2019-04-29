@@ -10,28 +10,34 @@ export default class Entrance extends Component {
     show: true
   };
   componentDidMount() {
-    Animated.timing(this.state.transformAnim, {
-      toValue: 50,
-      duration: 1200,
-      delay: 2000,
-      easing: Easing.elastic(2)
-    }).start();
-    Animated.timing(this.state.opacityAnim, {
-      toValue: 0,
-      duration: 800,
-      easing: Easing.elastic(1),
-      delay: 2200
-    }).start();
+    Animated.parallel([
+      Animated.timing(this.state.transformAnim, {
+        toValue: 50,
+        duration: 1200,
+        delay: 2000,
+        easing: Easing.elastic(2)
+      }),
+      Animated.timing(this.state.opacityAnim, {
+        toValue: 0,
+        duration: 800,
+        easing: Easing.elastic(1),
+        delay: 2200
+      })
+    ]).start();
     setTimeout(() => {
       this.setState({
         show: false
       });
-    }, 3300);
+    }, 2500);
   }
 
   render() {
-    return this.state.show ? (
+    if (!this.state.show) {
+      return null;
+    }
+    return (
       <Animated.View
+        pointerEvents={this.state.show ? "auto" : 'none'}
         style={[styles.entrance, { opacity: this.state.opacityAnim }]}
       >
         <AnimatedIcon
@@ -43,7 +49,7 @@ export default class Entrance extends Component {
           name="logo-twitter"
         />
       </Animated.View>
-    ) : null;
+    )
   }
 }
 

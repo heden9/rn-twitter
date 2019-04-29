@@ -1,18 +1,15 @@
 import React from "react";
 import { FlatList } from "react-native";
 import {
-  NavigationScreenConfig,
-  NavigationStackScreenOptions
+  NavigationStackRouterConfig
 } from "react-navigation";
-import { Container, ActionSheet } from "native-base";
+import { Container } from "native-base";
 import {
   Avatar,
   TweetEntry,
-  LikeButton,
-  ToolsBar2
 } from "../components/HomeWidget";
 import { FeedListItemCpt } from "../components/List";
-import { IStore, ITimelineItem, IFeedType, IUserMap } from "../types";
+import { IStore, ITimelineItem, IUserMap } from "../types";
 
 import { connect } from "../utils/dva";
 
@@ -44,17 +41,15 @@ interface IHomeState {
   refreshing: boolean;
 }
 
-const forwordActionOpts = ["转推", "带评论转推", "取消"];
-const shareActionOpts = [
-  "通过私信分享",
-  "添加推文到书签",
-  "分享推文...",
-  "取消"
-];
-class Home extends React.Component<IHomeProps, IHomeState> {
-  static navigationOptions: NavigationScreenConfig<
-    NavigationStackScreenOptions
-  > = props => {
+// const forwordActionOpts = ["转推", "带评论转推", "取消"];
+// const shareActionOpts = [
+//   "通过私信分享",
+//   "添加推文到书签",
+//   "分享推文...",
+//   "取消"
+// ];
+class Home extends React.PureComponent<IHomeProps, IHomeState> {
+  static navigationOptions: NavigationStackRouterConfig['navigationOptions'] = props => {
     const { openDrawer, navigate }: any = props.navigation;
     return {
       title: "主页",
