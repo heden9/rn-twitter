@@ -1,11 +1,10 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
   Text as RNText,
   Image as RNImage,
   TouchableOpacity,
-  TouchableHighlight
 } from "react-native";
 import {
   ListItem,
@@ -14,47 +13,46 @@ import {
   Body,
   Text,
   Right,
-  ActionSheet
+  ActionSheet,
 } from "native-base";
-import { Icon, ToolsBar, LikeButton, ToolsBar2 } from "./HomeWidget";
+import { Icon, ToolsBar, LikeButton, ToolsBar2 } from "./home-widget";
 import Colors from "../constants/Colors";
-import { ITimelineItem, IUserInfo } from "../types";
+import { Timeline, UserInfo, NavigationProps } from "../types";
 import LightBox from "react-native-lightbox";
-import Carousel from "react-native-looped-carousel";
 import { Image } from "react-native-expo-image-cache";
-import Layout from "../constants/Layout";
 import { ImageProps } from "react-native";
+
 const FONT = {
   fontSize: 16,
-  color: Colors.subTitle
+  color: Colors.subTitle,
 };
 const styles = StyleSheet.create({
   titleGroup: {
     flexDirection: "row",
-    marginBottom: 3
+    marginBottom: 3,
   },
   title: {
     fontWeight: "bold",
     fontSize: FONT.fontSize,
-    marginRight: 5
+    marginRight: 5,
   },
   subTitle: {
     marginLeft: 5,
-    ...FONT
+    ...FONT,
   },
   dot: {
     marginHorizontal: 4,
-    ...FONT
+    ...FONT,
   },
   time: {
-    ...FONT
+    ...FONT,
   },
   image: {
     marginTop: 10,
     width: "100%",
     height: 200,
-    borderRadius: 15
-  }
+    borderRadius: 15,
+  },
 });
 const noop = () => {};
 const showMoreActionSheet = (who: string) => {
@@ -65,29 +63,29 @@ const showMoreActionSheet = (who: string) => {
     `隐藏${who}`,
     `屏蔽${who}`,
     "举报推文",
-    "取消"
+    "取消",
   ];
   return ActionSheet.show(
     {
       options: BUTTONS,
-      cancelButtonIndex: BUTTONS.length - 1
+      cancelButtonIndex: BUTTONS.length - 1,
     },
-    () => {}
+    () => {},
   );
 };
-const forwordActionOpts = ["转推", "带评论转推", "取消"];
+const forwardActionOpts = ["转推", "带评论转推", "取消"];
 const shareActionOpts = [
   "通过私信分享",
   "添加推文到书签",
   "分享推文...",
-  "取消"
+  "取消",
 ];
+
 export interface IFeedListItemProps {
-  item: ITimelineItem;
-  userInfo: IUserInfo;
-  onPress?: () => void;
-  likeChange?: any;
-  navigate?: any;
+  item: Timeline;
+  userInfo: UserInfo;
+  likeChange?: (key: string, like: boolean) => void;
+  navigation: NavigationProps;
 }
 // const renderCarousel = () => (
 //   <Carousel
@@ -114,12 +112,13 @@ function Thumbnail(props: ImageProps & { onPress?: () => void }) {
     </TouchableOpacity>
   )
 }
+
 export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
   const toolsBarOpts = [
     {
       key: "comment",
       icon: "comment",
-      label: item.comment_count
+      label: item.comment_count,
     },
     {
       key: "forward",
@@ -127,19 +126,19 @@ export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
       onPress: () => {
         return ActionSheet.show(
           {
-            options: forwordActionOpts,
-            cancelButtonIndex: forwordActionOpts.length - 1
+            options: forwardActionOpts,
+            cancelButtonIndex: forwardActionOpts.length - 1,
           },
-          () => {}
+          () => {},
         );
       },
-      label: item.forward_count
+      label: item.forward_count,
     },
     {
       key: "like",
       IconCpt: (
-        <LikeButton initialLike={item.is_like} like_count={item.like_count} />
-      )
+        <LikeButton initialLike={item.is_like} likeCount={item.like_count} />
+      ),
     },
     {
       key: "upload",
@@ -148,17 +147,17 @@ export function ToolsBarHome({ item, dispatch }: { item: any; dispatch: any }) {
         return ActionSheet.show(
           {
             options: shareActionOpts,
-            cancelButtonIndex: shareActionOpts.length - 1
+            cancelButtonIndex: shareActionOpts.length - 1,
           },
-          () => {}
+          () => {},
         );
-      }
-    }
+      },
+    },
   ];
   return <ToolsBar options={toolsBarOpts} />;
 }
 
-export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
+export class FeedListItem extends React.Component<IFeedListItemProps> {
   shouldComponentUpdate(nextProps: IFeedListItemProps) {
     return (
       this.props.item !== nextProps.item ||
@@ -168,42 +167,55 @@ export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
   componentWillUnmount() {
     console.log("list unmount", this.props.userInfo.uid);
   }
+
   forwardAction = () => {
     return ActionSheet.show(
       {
-        options: forwordActionOpts,
-        cancelButtonIndex: forwordActionOpts.length - 1
+        options: forwardActionOpts,
+        cancelButtonIndex: forwardActionOpts.length - 1,
       },
-      () => {}
+      () => {},
     );
   };
+
   uploadAction = () => {
     return ActionSheet.show(
       {
         options: shareActionOpts,
-        cancelButtonIndex: shareActionOpts.length - 1
+        cancelButtonIndex: shareActionOpts.length - 1,
       },
-      () => {}
+      () => {},
     );
   };
+
   likeChange = (like: boolean) => {
-    this.props.likeChange(this.props.item.key, like);
+    if (this.props.likeChange) {
+      this.props.likeChange(this.props.item.key, like);
+    }
   };
+
   jumpToPerson = () => {
-    this.props.navigate("person", {
+    this.props.navigation.navigate("person", {
       userInfo: this.props.userInfo,
-      uid: this.props.item.uid
+      uid: this.props.item.uid,
     });
   }
+
   jumpToArticle = () => {
-    this.props.navigate("article", {
+    this.props.navigation.navigate("article", {
       uid: this.props.item.uid,
       aid: this.props.item.key,
-      info: this.props.item
+      info: this.props.item,
     });
   };
+
+  showMoreAction = () => {
+    showMoreActionSheet(`@${this.props.userInfo.nick_name}`);
+  }
+
   render() {
     const { item, userInfo } = this.props;
+    const defaultIconSize = 20;
     return (
       <ListItem onPress={this.jumpToArticle} key={item.key} avatar>
         <Left>
@@ -218,7 +230,7 @@ export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
             <RNText style={styles.time}>19时</RNText>
             <Right>
               <TouchableOpacity
-                onPress={() => showMoreActionSheet(`@${userInfo.nick_name}`)}
+                onPress={this.showMoreAction}
               >
                 <Icon name="down" size={17} color={Colors.tabIconDefault} />
               </TouchableOpacity>
@@ -236,22 +248,25 @@ export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
           )}
           <ToolsBar2>
             <ToolsBar2.Icon
-              icon={{ name: "comment", size: 20 }}
+              iconName="comment"
+              iconSize={defaultIconSize}
               label={item.comment_count}
             />
             <ToolsBar2.Icon
               onPress={this.forwardAction}
-              icon={{ name: "forward", size: 20 }}
+              iconName="forward"
+              iconSize={defaultIconSize}
               label={item.forward_count}
             />
             <LikeButton
               onPress={this.likeChange}
               initialLike={item.is_like}
-              like_count={item.like_count}
+              likeCount={item.like_count}
             />
             <ToolsBar2.Icon
               onPress={this.uploadAction}
-              icon={{ name: "upload", size: 20 }}
+              iconName="upload"
+              iconSize={defaultIconSize}
             />
           </ToolsBar2>
         </Body>
@@ -259,11 +274,18 @@ export class FeedListItemCpt extends React.Component<IFeedListItemProps> {
     );
   }
 }
-export function FeedListItem_2({
+
+export interface IFeedListItem2Props {
+  item: Timeline;
+  userInfo: UserInfo;
+  onPress?: () => void;
+}
+
+export const FeedListItem_2: React.SFC<IFeedListItem2Props> = ({
   item,
   userInfo,
-  onPress = noop
-}: IFeedListItemProps) {
+  onPress = noop,
+}) => {
   return (
     <React.Fragment>
       <View style={[styles.titleGroup, { marginBottom: 20 }]}>

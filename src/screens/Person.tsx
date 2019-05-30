@@ -7,7 +7,7 @@ import {
   Container,
   Title,
   Text,
-  Icon as NTcon
+  Icon as NTcon,
 } from "native-base";
 import {
   View,
@@ -17,57 +17,57 @@ import {
   TouchableWithoutFeedback,
   RefreshControl,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import { Uid } from "../types";
-import { Icon } from "../components/HomeWidget";
+import { Icon } from "../components/home-widget";
 import Layout from "../constants/Layout";
 import * as Animatable from "react-native-animatable";
 import HeaderImageScrollView, {
-  TriggeringView
+  TriggeringView,
 } from "react-native-image-header-scroll-view";
 const styles = StyleSheet.create({
   round: {
     backgroundColor: "rgba(0,0,0,.5)",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   rotate: {
-    transform: [{ rotate: "90deg" }]
+    transform: [{ rotate: "90deg" }],
   },
   buttonText: {
     color: "white",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   titleContainer: {
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
   },
   imageTitle: {
     color: "white",
     backgroundColor: "transparent",
-    fontSize: 24
+    fontSize: 24,
   },
   navTitleView: {
     height: Layout.HeaderHeight,
     justifyContent: "center",
     alignItems: "center",
     // paddingTop: 16,
-    opacity: 0
+    opacity: 0,
   },
   navTitle: {
     color: "white",
     fontSize: 18,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   section: {
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#cccccc",
-    backgroundColor: "white"
-  }
+    backgroundColor: "white",
+  },
 });
 const noop = () => {};
 function HeaderIcon({
@@ -75,7 +75,7 @@ function HeaderIcon({
   onPress = noop,
   size = 32,
   style = {},
-  iconStyle = {}
+  iconStyle = {},
 }: any) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -83,7 +83,7 @@ function HeaderIcon({
         style={[
           styles.round,
           { width: size, height: size, borderRadius: size / 2 },
-          style
+          style,
         ]}
       >
         <Icon name={name} style={iconStyle} size={20} color="#fff" />
@@ -101,16 +101,16 @@ export default class Person extends React.Component<IPersonProps> {
   };
   navTitleView: any;
   state = {
-    refreshing: false
+    refreshing: false,
   };
   _onRefresh = () => {
     this.setState({
-      refreshing: true
+      refreshing: true,
     });
 
     setTimeout(() => {
       this.setState({
-        refreshing: false
+        refreshing: false,
       });
     }, 2000);
   };

@@ -3,7 +3,7 @@ export default {
     state: {
         theme: {
 
-        }
+        },
     },
     reducers: {
         save(state: any) { return state + 1 },

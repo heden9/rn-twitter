@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderTopColor: Colors.borderColor,
-    borderTopWidth: 1
-  }
+    borderTopWidth: 1,
+  },
 });
 export default class ReplayInput extends React.PureComponent<IReplayInputProps> {
   render() {
@@ -40,7 +40,7 @@ export default class ReplayInput extends React.PureComponent<IReplayInputProps> 
               height: 33,
               paddingLeft: 13,
               color: Colors.inputColor,
-              marginTop: -2
+              marginTop: -2,
             }}
           />
         </Item>

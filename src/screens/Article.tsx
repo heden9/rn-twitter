@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Content, ActionSheet } from "native-base";
 import {
   NavigationScreenConfig,
-  NavigationStackScreenOptions
+  NavigationStackScreenOptions,
 } from "react-navigation";
 import {
   Text,
@@ -11,14 +11,14 @@ import {
   PixelRatio,
   TextInput,
   Button,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import Colors from "../constants/Colors";
-import { FeedListItem_2 } from "../components/List";
+import { FeedListItem_2 } from "../components/home-list";
 import ReplayInput from '../components/ReplayInput';
-import { ToolsBar2, LikeButton } from "../components/HomeWidget";
+import { ToolsBar2, LikeButton } from "../components/home-widget";
 import { connect } from "../utils/dva";
-import { IStore, ITimelineItem, IUserInfo, Uid } from "../types";
+import { Store, Timeline, UserInfo, Uid } from "../types";
 // import { InputToolbar } from "react-native-gifted-chat";
 const GAP = 10;
 const FONTSIZE = 14;
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "#fff",
     padding: 16,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   tipBar: {
     paddingVertical: GAP,
@@ -35,25 +35,25 @@ const styles = StyleSheet.create({
     borderTopColor: "#eee",
     borderBottomColor: "#eee",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   bold: {
     color: "black",
     fontWeight: "bold",
-    fontSize: FONTSIZE
+    fontSize: FONTSIZE,
   },
   text: {
     fontSize: FONTSIZE,
     marginLeft: 3,
-    color: Colors.subTitle
+    color: Colors.subTitle,
   },
 
   textInputView: {
     padding: 8,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   textInput: {
     flexGrow: 1,
@@ -63,58 +63,59 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     marginRight: 10,
-    textAlignVertical: "top"
+    textAlignVertical: "top",
   },
   textInputButton: {
-    flexShrink: 1
-  }
+    flexShrink: 1,
+  },
 });
 
 interface IArticleProps {
   navigation: any;
-  articleInfo: ITimelineItem;
-  userInfo: IUserInfo;
+  articleInfo: Timeline;
+  userInfo: UserInfo;
   likeChange: any;
   uid: Uid;
 }
-const forwordActionOpts = ["转推", "带评论转推", "取消"];
+const forwardActionOpts = ["转推", "带评论转推", "取消"];
 const shareActionOpts = [
   "通过私信分享",
   "添加推文到书签",
   "分享推文...",
-  "取消"
+  "取消",
 ];
 class Article extends React.PureComponent<IArticleProps> {
   static navigationOptions = {
-    title: "推文"
+    title: "推文",
   };
   componentDidMount() {}
   forwardAction = () => {
     return ActionSheet.show(
       {
-        options: forwordActionOpts,
-        cancelButtonIndex: forwordActionOpts.length - 1
+        options: forwardActionOpts,
+        cancelButtonIndex: forwardActionOpts.length - 1,
       },
-      () => {}
+      () => {},
     );
   };
   uploadAction = () => {
     return ActionSheet.show(
       {
         options: shareActionOpts,
-        cancelButtonIndex: shareActionOpts.length - 1
+        cancelButtonIndex: shareActionOpts.length - 1,
       },
-      () => {}
+      () => {},
     );
   };
   jumpToPerson = () => {
     this.props.navigation.navigate("person", {
       userInfo: this.props.userInfo,
-      uid: this.props.uid
+      uid: this.props.uid,
     });
   }
   render() {
     const { articleInfo, userInfo, likeChange } = this.props;
+    const defaultIconSize = 23;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }} keyboardDismissMode="on-drag">
@@ -132,20 +133,25 @@ class Article extends React.PureComponent<IArticleProps> {
               <Text style={styles.text}>喜欢</Text>
             </View>
             <ToolsBar2 buttonStyle={{ justifyContent: "center" }}>
-              <ToolsBar2.Icon icon={{ name: "comment", size: 23 }} />
+              <ToolsBar2.Icon
+                iconName={'comment'}
+                iconSize={23}
+              />
               <ToolsBar2.Icon
                 onPress={this.forwardAction}
-                icon={{ name: "forward", size: 23 }}
+                iconName={'forward'}
+                iconSize={23}
               />
               <LikeButton
-                show_count={false}
+                countShow={false}
                 onPress={likeChange}
-                like_count={articleInfo.like_count}
+                likeCount={articleInfo.like_count}
                 initialLike={articleInfo.is_like}
               />
               <ToolsBar2.Icon
+                iconName="upload"
+                iconSize={23}
                 onPress={this.uploadAction}
-                icon={{ name: "upload", size: 23 }}
               />
             </ToolsBar2>
           </View>
@@ -160,16 +166,16 @@ function mapDispatchToProps(dispatch: any, props: IArticleProps) {
   const { aid, uid } = props.navigation.state.params;
   return {
     likeChange(like: boolean) {
-      dispatch({ type: "feed/like_change", payload: { id: aid, like } });
-    }
+      dispatch({ type: "feed/changeLikeSuccess", payload: { id: aid, like } });
+    },
   };
 }
-function mapStateToProps({ feed }: IStore, props: IArticleProps) {
+function mapStateToProps({ feed }: Store, props: IArticleProps) {
   const { aid, uid } = props.navigation.state.params;
   return {
-    articleInfo: feed.timeline.map[aid],
-    userInfo: feed.userMap[uid],
-    uid
+    articleInfo: feed.timelineMap[aid],
+    userInfo: feed.userInfoMap[uid],
+    uid,
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

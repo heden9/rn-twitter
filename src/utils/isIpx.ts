@@ -1,4 +1,4 @@
-import {Dimensions,Platform} from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 // iPhoneX Xs
 const X_WIDTH = 375;

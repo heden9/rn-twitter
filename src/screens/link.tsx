@@ -6,11 +6,11 @@ export default createMaterialTopTabNavigator(
   {
     tab1: ExpoConfigView,
     tab2: ExpoConfigView,
-    tab3: ExpoConfigView
+    tab3: ExpoConfigView,
   },
   {
     lazy: true,
     initialRouteName: "tab1",
-    animationEnabled: false
-  }
+    animationEnabled: false,
+  },
 );

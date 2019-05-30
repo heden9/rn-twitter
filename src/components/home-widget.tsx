@@ -7,61 +7,51 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Platform
+  Platform,
+  TouchableWithoutFeedbackProps,
+  ViewProps,
+  TouchableOpacityProps,
 } from "react-native";
 import Colors from "../constants/Colors";
 const { Lottie } = require("expo").DangerZone;
-import { Button } from "native-base";
 const { createIconSetFromIcoMoon } = require("@expo/vector-icons");
 const icoMoonConfig = require("../assets/fonts/config.json");
-export const Icon = createIconSetFromIcoMoon(icoMoonConfig);
-interface ITwitterIconProps {
-  name: string;
-  selected: boolean;
-}
 
-export function TwitterIcon({ name, selected = false }: ITwitterIconProps) {
-  const color = selected ? Colors.tabIconSelected : Colors.tabIconDefault;
-  return (
-    <Icon name={name} size={26} style={{ marginBottom: -3 }} color={color} />
-  );
-}
+export const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const margin = 20;
 const styles = StyleSheet.create({
   image: {
-    width: 30,
-    height: 30,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   button: {
     borderRadius: 15,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   pen: {
-    marginRight: margin
+    marginRight: margin,
   },
   toolsBar: {
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   toolsText: {
     color: Colors.tabIconDefault,
     fontSize: 16,
-    marginLeft: 3
+    marginLeft: 3,
   },
   touchContainer: {
     height: 45,
     paddingVertical: 6,
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   toolsBarItem: {
-    flex: 1
+    flex: 1,
   },
   lottieContainer: {
     // position: "relative",
     height: 20,
-    width: 20
+    width: 20,
     // marginTop: -7,
     // backgroundColor: 'red',
   },
@@ -74,77 +64,90 @@ const styles = StyleSheet.create({
         width: 65,
         height: 65,
         top: -12,
-        left: -11.5
+        left: -11.5,
       },
       android: {
         width: 70,
         height: 70,
         top: -25,
-        left: -25
-      }
-    })
+        left: -25,
+      },
+    }),
   },
   androidLottie: {
-    position: "absolute"
+    position: "absolute",
   },
   like: {
-    color: Colors.likeColor
-  }
+    color: Colors.likeColor,
+  },
 });
+
 const noop = () => {};
-export function Avatar({ onPress = noop, width = 30, style = {} }) {
+
+interface IAvatarProps {
+  onPress?: TouchableOpacityProps['onPress'];
+  width?: number;
+  style?: ViewProps['style'];
+  uri: string;
+}
+
+export const Avatar: React.SFC<IAvatarProps> = ({ onPress = noop, width = 30, style = {}, uri }) => {
   return (
-    <TouchableHighlight style={[styles.button,{ borderRadius: width/2 }, style]} onPress={onPress}>
+    <TouchableHighlight style={[styles.button, { borderRadius: width / 2, width, height: width }, style]} onPress={onPress}>
       <Image
         style={[styles.image, { width, height: width }]}
-        source={require("../assets/images/avatar.jpg")}
+        source={{ uri }}
       />
     </TouchableHighlight>
   );
 }
-export function TweetEntry({ onPress = noop }) {
+
+interface ITweetEntryProps {
+  onPress: TouchableOpacityProps['onPress'];
+}
+
+export const TweetEntry: React.SFC<ITweetEntryProps> = ({ onPress = noop }) => {
   return (
     <TouchableOpacity style={styles.pen} onPress={onPress}>
       <Icon name={"pen"} size={26} color={Colors.tabIconSelected} />
     </TouchableOpacity>
   );
 }
+
 interface ILikeButtonProps {
-  like_count: string | number;
+  likeCount: string | number;
   initialLike: boolean;
-  show_count?: boolean;
-  style?: any;
+  countShow?: boolean;
+  style?: ViewProps['style'];
   onPress?: (like: boolean) => void;
 }
+
 interface ILikeButtonState {
   like: boolean;
-  like_count?: number;
+  likeCount?: number;
 }
+
 export class LikeButton extends React.PureComponent<
   ILikeButtonProps,
   ILikeButtonState
 > {
-  static defaultProps = {
-    onPress: noop
-  };
   static getDerivedStateFromProps(
     nextProps: ILikeButtonProps,
-    prevState: ILikeButtonState
+    prevState: ILikeButtonState,
   ) {
-    const { like } = prevState;
-    const like_count = +nextProps.like_count;
+    const likeCount = +nextProps.likeCount;
     return {
       ...prevState,
       like: nextProps.initialLike,
-      like_count
+      likeCount,
     };
   }
   animation: React.RefObject<any>;
   state = {
     like: false,
-    like_count: 0
+    likeCount: 0,
   };
-  constructor(props: any) {
+  constructor(props: ILikeButtonProps) {
     super(props);
     this.animation = React.createRef();
   }
@@ -155,7 +158,7 @@ export class LikeButton extends React.PureComponent<
     this.setAnimationStep();
   }
   setAnimationStep = () => {
-    const { like, like_count } = this.state;
+    const { like } = this.state;
     if (like) {
       this.animation.current.play(120, 120);
     } else {
@@ -163,7 +166,7 @@ export class LikeButton extends React.PureComponent<
     }
   };
   toggle = () => {
-    const { like, like_count } = this.state;
+    const { like, likeCount } = this.state;
     if (like) {
       this.animation.current.reset();
     } else {
@@ -171,23 +174,26 @@ export class LikeButton extends React.PureComponent<
     }
     this.setState({
       like: !like,
-      like_count: !like ? like_count + 1 : +this.props.like_count
+      likeCount: !like ? likeCount + 1 : +this.props.likeCount,
     });
-    this.props.onPress(!like);
+
+    if (this.props.onPress) {
+      this.props.onPress(!like);
+    }
   };
   render() {
-    const { like_count, like } = this.state;
-    const { show_count = true, style } = this.props;
+    const { likeCount, like } = this.state;
+    const { countShow = true, style } = this.props;
     const likeStyle = like ? styles.like : {};
     return (
       <TouchableWithoutFeedback onPress={this.toggle}>
         <View style={[styles.touchContainer, style]}>
           {MyLottie({
             _ref: this.animation,
-            source: require("../assets/lottie/heart.json")
+            source: require("../assets/lottie/heart.json"),
           })}
-          {show_count && (
-            <RNText style={[styles.toolsText, likeStyle]}>{like_count}</RNText>
+          {countShow && (
+            <RNText style={[styles.toolsText, likeStyle]}>{likeCount}</RNText>
           )}
         </View>
       </TouchableWithoutFeedback>
@@ -199,7 +205,8 @@ interface IMyLottieProps {
   source: string | number;
   _ref?: any;
 }
-export function MyLottie({ source, _ref }: IMyLottieProps) {
+
+export const MyLottie: React.SFC<IMyLottieProps> = ({ source, _ref }) => {
   return (
     <View style={styles.lottieContainer}>
       <Lottie
@@ -212,28 +219,29 @@ export function MyLottie({ source, _ref }: IMyLottieProps) {
     </View>
   );
 }
-interface IOptionsItem {
+
+interface IToolsBarOptionsItem {
   key: string;
   onPress?: () => void;
   icon?: string;
   label?: string | number;
   IconCpt?: ReactElement<any>;
 }
+
 interface IToolsBarProps {
-  options: IOptionsItem[];
+  options: IToolsBarOptionsItem[];
   buttonStyle?: any;
   iconSize?: number;
-  children?: any;
 }
-export function ToolsBar({
+
+export const ToolsBar: React.SFC<IToolsBarProps> = ({
   options,
   buttonStyle = {},
   iconSize = 20,
-  children = noop
-}: IToolsBarProps) {
+}) => {
   return (
     <React.Fragment>
-      {children({ options, buttonStyle, iconSize })}
+      {/* {children({ options, buttonStyle, iconSize })} */}
       <View style={styles.toolsBar}>
         {options.map(item => {
           const { onPress = noop } = item;
@@ -242,7 +250,7 @@ export function ToolsBar({
               {item.IconCpt ? (
                 React.cloneElement(item.IconCpt, {
                   ...item,
-                  style: [styles.touchContainer, buttonStyle]
+                  style: [styles.touchContainer, buttonStyle],
                 })
               ) : (
                 <TouchableWithoutFeedback onPress={onPress}>
@@ -267,14 +275,28 @@ export function ToolsBar({
     </React.Fragment>
   );
 }
-export function ToolsBar2({ buttonStyle = {}, iconSize = 20, children }: any) {
+
+interface IToolsBar2Props {
+  buttonStyle?: ViewProps['style'];
+  iconSize?: number;
+}
+
+interface IToolsBar2IconProps {
+  onPress?: TouchableWithoutFeedbackProps['onPress'];
+  style?: ViewProps['style'];
+  iconSize?: number;
+  iconName?: string;
+  label?: string | number;
+}
+
+export const ToolsBar2: React.SFC<IToolsBar2Props> & { Icon: React.SFC<IToolsBar2IconProps> } = ({ buttonStyle = {}, children }) => {
   return (
     <View style={styles.toolsBar}>
       {React.Children.map(children, (child: any, i) => {
         return (
           <View style={styles.toolsBarItem}>
             {React.cloneElement(child, {
-              style: buttonStyle
+              style: buttonStyle,
             })}
           </View>
         );
@@ -282,15 +304,15 @@ export function ToolsBar2({ buttonStyle = {}, iconSize = 20, children }: any) {
     </View>
   );
 }
-ToolsBar2.Icon = (props: any) => {
-  const { onPress, style, icon, label } = props;
+
+ToolsBar2.Icon = ({ onPress = noop, style = {}, iconSize = 20, iconName, label }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={[styles.touchContainer, style]}>
-        {icon && (
+        {iconName && (
           <Icon
-            name={icon.name}
-            size={icon.size}
+            name={iconName}
+            size={iconSize}
             color={Colors.tabIconDefault}
           />
         )}
@@ -299,3 +321,15 @@ ToolsBar2.Icon = (props: any) => {
     </TouchableWithoutFeedback>
   );
 };
+
+interface ITwitterIconProps {
+  name: string;
+  selected?: boolean;
+}
+
+export function TwitterIcon({ name, selected = false }: ITwitterIconProps) {
+  const color = selected ? Colors.tabIconSelected : Colors.tabIconDefault;
+  return (
+    <Icon name={name} size={26} style={{ marginBottom: -3 }} color={color} />
+  );
+}

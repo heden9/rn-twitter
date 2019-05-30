@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   topic: {
     color: Colors.tintColor,
-  }
+  },
 })
 type types = 'attention' | 'topic' | 'default';
 const noop = () => {}
@@ -34,7 +34,7 @@ export default function Format(source: string): JsxText[] {
   let start = 0;
   const jsxArr = [];
   const buttonCreator = /*Platform.OS === 'ios' ? iosButtonCreator :*/ androidButtonCreator
-  while(res = regx.exec(source)) {
+  while (res = regx.exec(source)) {
     const s = res[0];
     const index = res.index;
     jsxArr.push(source.slice(start, index));
@@ -44,6 +44,9 @@ export default function Format(source: string): JsxText[] {
     }else if (s.startsWith('#')) {
       jsxArr.push(buttonCreator(s, 'topic'))
     }
+  }
+  if (!regx.exec(source)) {
+    jsxArr.push(source);
   }
   return jsxArr;
 }

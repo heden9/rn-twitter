@@ -1,25 +1,33 @@
 import React from "react";
 import { StyleProvider, Root } from "native-base";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import useImmer from "dva-immer";
+import useLoading from 'dva-loading';
 import { AppLoading, Asset, Font } from "expo";
-import RootNavigation from "./navigation/RootNavigation";
-import Enhance from "./components/TwitterEnhance";
-import getTheme from "./theme/components";
-import theme from "./theme/variables/commonColor";
+import TwitterSplash from './components/twitter-splash';
+import RootNavigation from "./navigation/root";
 import appModel from "./models/app";
 import feedModel from "./models/feed";
 import tweetModel from "./models/tweet";
-import useImmer from "dva-immer";
+import userModel from "./models/user";
 import dva from "./utils/dva";
+
+const getTheme = require('./theme/components').default;
+const theme = require('./theme/variables/commonColor').default;
 
 const app = dva({
   ...useImmer(),
+  ...useLoading(),
   initialState: {},
-  models: [appModel, feedModel, tweetModel]
+  models: [appModel, feedModel, tweetModel, userModel],
 });
-class App extends React.Component {
+
+interface IAppProps {
+  skipLoadingScreen?: boolean;
+}
+
+class App extends React.Component<IAppProps> {
   state = {
-    isLoadingComplete: false
+    isLoadingComplete: false,
   };
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -34,19 +42,17 @@ class App extends React.Component {
       return (
         <Root>
           <StyleProvider style={getTheme(theme)}>
-            <View style={styles.container}>
-              <Enhance />
-              {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            <TwitterSplash>
               <RootNavigation />
-            </View>
+            </TwitterSplash>
           </StyleProvider>
         </Root>
       );
     }
   }
 
-  _loadResourcesAsync = () => {
-    return Promise.all([
+  async _loadResourcesAsync() {
+    await Promise.all([
       Asset.loadAsync([
         // require('./assets/images/robot-dev.png'),
         // require('./assets/images/robot-prod.png'),
@@ -57,12 +63,12 @@ class App extends React.Component {
         // We include SpaceMono because we use it in Home.js. Feel free
         // to remove this if you are not using it in your app
         // 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        icomoon: require("./assets/fonts/icomoon.ttf")
-      })
+        icomoon: require("./assets/fonts/icomoon.ttf"),
+      }),
     ]);
   };
 
-  _handleLoadingError = error => {
+  _handleLoadingError = (error: Error) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);
@@ -73,9 +79,4 @@ class App extends React.Component {
   };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
 export default app.start(<App />);

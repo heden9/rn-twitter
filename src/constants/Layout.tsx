@@ -9,5 +9,5 @@ export default {
     height,
   },
   isSmallDevice: width < 375,
-  HeaderHeight: Platform.OS === "ios" ? (isIPX ? 88 : 64) : 56
+  HeaderHeight: Platform.OS === "ios" ? (isIPX ? 88 : 64) : 56,
 };

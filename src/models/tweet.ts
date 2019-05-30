@@ -1,21 +1,30 @@
-import { ITweetType } from "../types";
+import { EffectsCommandMap } from "dva-core";
+import { TweetStore, Store } from "../types";
+import { postDynamics } from "../services/timeline";
 
 export default {
   namespace: "tweet",
   state: {
-    tmpContent: ""
+    dratContent: "",
   },
   reducers: {
-    save(state: ITweetType, { payload: { tmpContent } }: { payload: any }) {
-      state.tmpContent = tmpContent;
-    }
+    save(state: TweetStore, { payload: { dratContent } }: { payload: any }) {
+      state.dratContent = dratContent;
+    },
   },
   effects: {
-    // *fetch(action, { call, put }) {
-    // },
+    *commit({}, { call, put, select }: EffectsCommandMap) {
+      const { dratContent } = yield select((state: Store) => state.tweet);
+      const data = yield call(postDynamics, dratContent);
+      console.log(data);
+      if (data.id) {
+        yield put({ type: 'save', payload: { dratContent: '' } });
+      }
+      return !!data.id;
+    },
   },
   subscriptions: {
     // setup({ dispatch }) {
     // },
-  }
+  },
 };
