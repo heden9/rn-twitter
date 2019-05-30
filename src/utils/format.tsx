@@ -34,6 +34,7 @@ export default function Format(source: string): JsxText[] {
   let start = 0;
   const jsxArr = [];
   const buttonCreator = /*Platform.OS === 'ios' ? iosButtonCreator :*/ androidButtonCreator
+// tslint:disable-next-line: no-conditional-assignment
   while (res = regx.exec(source)) {
     const s = res[0];
     const index = res.index;

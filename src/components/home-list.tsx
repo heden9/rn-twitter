@@ -281,6 +281,7 @@ export interface IFeedListItem2Props {
   onPress?: () => void;
 }
 
+// tslint:disable-next-line: variable-name
 export const FeedListItem_2: React.SFC<IFeedListItem2Props> = ({
   item,
   userInfo,
