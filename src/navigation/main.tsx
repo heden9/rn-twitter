@@ -8,7 +8,6 @@ import {
   NavigationRouteConfigMap,
 } from "react-navigation";
 import Colors from "../constants/Colors";
-import { TwitterIcon } from "../components/home-widget";
 import Feed from "../screens/feed";
 import Article from "../screens/article";
 import Tweet from "../screens/tweet";
@@ -18,6 +17,7 @@ import LoginScreen from '../screens/login';
 import AuthLoadingScreen from '../screens/auth-loading';
 import SettingsScreen from "../screens/settings";
 import Me from '../screens/me';
+import { Icon } from "../components/widget";
 
 const { default: TabBarBottom } = require("../components/TabBottom");
 const { ExpoConfigView } = require("@expo/samples");
@@ -45,7 +45,7 @@ const createTabScreen = (
     tabBarLabel: icon,
     showIcon: true,
     tabBarIcon: ({ focused }: any) => (
-      <TwitterIcon selected={focused} name={`${icon}${focused ? "-o" : ""}`} />
+      <Icon name={`${icon}${focused ? "-o" : ""}`} size={26} style={{ marginBottom: -3 }} color={focused ? Colors.tabIconSelected : Colors.tabIconDefault} />
     ),
   };
   return TabStackScreen;

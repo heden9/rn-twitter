@@ -20,7 +20,7 @@ import {
   StatusBar,
 } from "react-native";
 import { Uid } from "../types";
-import { Icon } from "../components/home-widget";
+import { Icon } from "../components/widget";
 import Layout from "../constants/Layout";
 import * as Animatable from "react-native-animatable";
 import HeaderImageScrollView, {

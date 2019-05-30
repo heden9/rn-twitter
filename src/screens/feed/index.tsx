@@ -1,13 +1,13 @@
 import React from "react";
-import { FlatList, ListRenderItemInfo, ActivityIndicator, View } from "react-native";
-import { Container } from "native-base";
+import { FlatList as RNFlatList, ListRenderItemInfo, ActivityIndicator, View, FlatListProps } from "react-native";
 
-import { FeedListItem } from "../../components/feed-list";
-import { Store, NavigationOptions } from "../../types";
+import { FeedCard } from "../../components/card";
+import { Store, NavigationOptions, Timeline, UserInfo } from "../../types";
 import { connect } from "../../utils/dva";
 import { FeedProps, FeedState } from "./type";
 import { Avatar, BtnTweet } from "../../components/widget";
 
+const FlatList = RNFlatList as any;
 class Feed extends React.PureComponent<FeedProps, FeedState> {
   static Avatar = connect(({ user }: Store) => {
     return {
@@ -25,16 +25,30 @@ class Feed extends React.PureComponent<FeedProps, FeedState> {
     };
   };
 
+  onAvatarPress = (timeline: Timeline, userInfo: UserInfo) => {
+    this.props.navigation.navigate("person", {
+      uid: userInfo.uid,
+    });
+  }
+
+  onCardPress = (timeline: Timeline, userInfo: UserInfo) => {
+    this.props.navigation.navigate("article", {
+      uid: userInfo.uid,
+      aid: timeline.aid,
+    });
+  }
+
   renderItem = ({ item }: ListRenderItemInfo<string>) => {
-    const { timelineMap, userInfoMap, navigation, onLike } = this.props;
+    const { timelineMap, userInfoMap, onLike } = this.props;
     const timeline = timelineMap[item];
     const userInfo = userInfoMap[timeline.uid];
 
     return (
-      <FeedListItem
+      <FeedCard
         timeline={timeline}
         userInfo={userInfo}
-        navigation={navigation}
+        onAvatarPress={this.onAvatarPress}
+        onCardPress={this.onCardPress}
         onLike={onLike}
       />
     );
@@ -63,12 +77,13 @@ class Feed extends React.PureComponent<FeedProps, FeedState> {
   }
 
   render() {
-    const { timelineOrder, timelineMap, onRefresh, refreshing, onFetch } = this.props;
+    const { timelineOrder, timelineMap, onRefresh, refreshing, loading } = this.props;
     return (
       <FlatList
         onEndReached={this.onEndReached}
         extraData={timelineMap}
         onRefresh={onRefresh}
+        loading={loading}
         refreshing={refreshing}
         data={timelineOrder}
         keyExtractor={this.keyExtractor}

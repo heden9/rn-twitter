@@ -1,6 +1,6 @@
 import { EffectsCommandMap } from "dva-core";
 import { TweetStore, Store } from "../types";
-import { postDynamics } from "../services/timeline";
+import { postDynamics } from "../services/dynamic";
 
 export default {
   namespace: "tweet",

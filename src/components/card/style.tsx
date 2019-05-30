@@ -26,14 +26,6 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   subTitle: {
-    marginLeft: 5,
-    ...FONT,
-  },
-  dot: {
-    marginHorizontal: 4,
-    ...FONT,
-  },
-  time: {
     ...FONT,
   },
   image: {
@@ -44,6 +36,5 @@ export default StyleSheet.create({
   },
   richText: {
     fontSize: 14,
-    // lineHeight: 20,
   },
 });

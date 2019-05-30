@@ -3,21 +3,25 @@ import { ViewProps } from "react-native";
 import { NavigationStackRouterConfig } from "react-navigation";
 
 export type Uid = string;
+export type Aid = string;
+export type Cid = string;
 export type JsxText = string | JSX.Element
 export interface Timeline {
   key: string,
-  jsxText: JsxText[],
+  aid: Aid,
+  brief: JsxText[],
+  content?: JsxText[],
   comment_count: number,
   forward_count: number,
   like_count: number,
   is_like: boolean,
-  created_at: number | string,
+  created_at: number,
   pics: string[],
   uid: Uid,
 }
 export interface UserInfo {
   uid: Uid,
-  nick_name: string,
+  nickname: string,
   avatar: string,
   follow_count: number,
   follow_me: boolean,
@@ -45,6 +49,22 @@ export interface FeedStore {
   loading: boolean;
 }
 
+export interface CommentData {
+  cid: Cid,
+  content: JsxText[],
+  comment_count: number,
+  forward_count: number,
+  like_count: number,
+  is_like: boolean,
+  created_at: number,
+}
+
+export interface CommentStore {
+  commentMap: {
+    [key: string]: CommentData[],
+  }
+}
+
 export interface TweetStore {
   dratContent: string
 }
@@ -59,6 +79,7 @@ export interface Store {
   feed: FeedStore,
   tweet: TweetStore,
   user: UserStore,
+  comment: CommentStore,
   loading: any;
 }
 

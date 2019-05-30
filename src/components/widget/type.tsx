@@ -22,7 +22,7 @@ export interface MyLottieProps {
 
 export interface AvatarProps {
   onPress?: TouchableOpacityProps['onPress'];
-  width?: number;
+  size?: number;
   style?: ViewStyle;
   uri: string;
 }

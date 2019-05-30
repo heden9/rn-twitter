@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle, TouchableWithoutFeedback, Text } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Icon } from '../widget';
+import { ActionBarProps, ActionBarIconProps } from './types';
 
 const styles = StyleSheet.create({
   bar: {
+    overflow: 'hidden',
     flexDirection: "row",
     justifyContent: "space-around",
   },
@@ -25,20 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface IToolsBar2Props {
-  buttonStyle?: ViewStyle;
-  iconSize?: number;
-}
-
-interface IToolsBar2IconProps {
-  onPress?: () => void;
-  style?: ViewStyle;
-  iconSize?: number;
-  iconName?: string;
-  label?: string | number;
-}
-
-const ActionBar: React.SFC<IToolsBar2Props> & { Icon: React.SFC<IToolsBar2IconProps> } = ({ buttonStyle = {}, children }) => {
+export const ActionBar: React.SFC<ActionBarProps> & { Icon: React.SFC<ActionBarIconProps> } = ({ buttonStyle = {}, children }) => {
   return (
     <View style={styles.bar}>
       {React.Children.map(children, (child: any, i) => {
@@ -70,5 +59,3 @@ ActionBar.Icon = ({ onPress = () => {}, style = {}, iconSize = 20, iconName, lab
     </TouchableWithoutFeedback>
   );
 };
-
-export default ActionBar;

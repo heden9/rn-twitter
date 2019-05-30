@@ -8,6 +8,7 @@ import RootNavigation from "./navigation/root";
 import appModel from "./models/app";
 import feedModel from "./models/feed";
 import tweetModel from "./models/tweet";
+import commentModel from "./models/comment";
 import userModel from "./models/user";
 import dva from "./utils/dva";
 
@@ -18,7 +19,7 @@ const app = dva({
   ...useImmer(),
   ...useLoading(),
   initialState: {},
-  models: [appModel, feedModel, tweetModel, userModel],
+  models: [appModel, feedModel, tweetModel, userModel, commentModel],
 });
 
 interface IAppProps {

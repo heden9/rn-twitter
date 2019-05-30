@@ -1,11 +1,10 @@
 import { keyBy } from "lodash";
 import format from "../utils/format";
-import { UserInfoMap, Store, FeedStore } from "../types";
+import { UserInfoMap, Store, FeedStore, Aid } from "../types";
 import { EffectsCommandMap } from "dva-core";
-import { getDynamics, DynamicsResult, changeLikes, LikesResult } from "../services/timeline";
+import { getDynamics, DynamicsResult, changeLikes, LikesResult, DynamicDetailResult, getDynamicsDetail } from "../services/dynamic";
 import { delay } from "../utils/delay";
 const s = `LIVE NOW: Tune in to hear from mission experts on today's @OrbitalATK #Antares cargo launch to the International @Space_Station: nasa.gov/live Have questions? Use #askNASA `;
-const res = format(s);
 
 // const timeline: Timeline[] = new Array(100).fill(0).map((item, index) => ({
 //   key: "" + index,
@@ -18,18 +17,18 @@ const res = format(s);
 //   pics: ["http://lorempixel.com/640/480/city"],
 // }));
 
-const userInfo = keyBy(
-  new Array(100).fill(0).map((item, index) => ({
-    uid: "" + (1000 + index),
-    nick_name: "NASA" + index,
-    avatar: `https://s3.amazonaws.com/uifaces/faces/twitter/g3d/128.jpg`,
-    follow_count: 100,
-    follow_me: false,
-    following: false,
-    verified: true,
-  })),
-  "uid",
-);
+// const userInfo = keyBy(
+//   new Array(100).fill(0).map((item, index) => ({
+//     uid: "" + (1000 + index),
+//     nickname: "NASA" + index,
+//     avatar: `https://s3.amazonaws.com/uifaces/faces/twitter/g3d/128.jpg`,
+//     follow_count: 100,
+//     follow_me: false,
+//     following: false,
+//     verified: true,
+//   })),
+//   "uid",
+// );
 
 function arrToStrMap(obj: any, key: string = "key") {
   const map: UserInfoMap = {};
@@ -45,9 +44,10 @@ function arrToStrMap(obj: any, key: string = "key") {
 export default {
   namespace: "feed",
   state: {
+    limit: 12,
     timelineMap: {},
     timelineOrder: [],
-    userInfoMap: userInfo,
+    userInfoMap: {},
     offset: 0,
     hasMore: 1,
     refreshing: false,
@@ -65,12 +65,18 @@ export default {
         state.timelineMap[id].like_count -= 1
       }
     },
-    fetchTimelineOk(state: FeedStore, { payload: { userInfoMap, timelineMap, offset, hasMore, timelineOrder } }: { payload: any }) {
+    fetchTimelineOk(state: FeedStore, { payload: { userInfoMap, timelineMap, offset, hasMore, timelineOrder, refresh } }: { payload: any }) {
       state.offset = offset;
       state.hasMore = hasMore;
       Object.assign(state.timelineMap, timelineMap);
       Object.assign(state.userInfoMap, userInfoMap)
       state.timelineOrder = timelineOrder;
+    },
+    fetchArticleOk(state: FeedStore, { payload: article }: { payload: any }) {
+      state.timelineMap[article.aid] = {
+        ...state.timelineMap[article.aid],
+        ...article,
+      }
     },
     refreshOk(state: FeedStore, { payload: { refreshing } }: { payload: { refreshing: boolean }}) {
       state.refreshing = refreshing;
@@ -92,29 +98,30 @@ export default {
       const delayer = delay(1000);
       yield put({ type: 'spinOk', payload: { refresh: payload.refresh, spinning: true } });
 
-      const { offset, timelineOrder } = yield select((state: Store) => state.feed);
+      const { offset, timelineOrder, limit } = yield select((state: Store) => state.feed);
 
       // fetch data from 0 when refresh
-      const data: DynamicsResult = yield call(getDynamics, { offset: payload.refresh ? 0 : offset, limit: 8 });
+      const data: DynamicsResult = yield call(getDynamics, { offset: payload.refresh ? 0 : offset, limit });
       console.log(data);
       const rawTimeline = [];
       const rawUserInfoMap: any = {};
       for (const dy of data.dynamics) {
         const newDy = {
           key: '' + dy.id,
-          jsxText: format(dy.brief),
+          aid: '' + dy.id,
+          brief: format(dy.brief),
           comment_count: dy.commentNum,
           forward_count: 0,
           like_count: dy.likeNum,
           is_like: dy.isLike,
           uid: '' + dy.uid,
           pics: dy.img,
-          created_at: dy.pubTime,
+          created_at: dy.rawPubTime,
         };
         rawTimeline.push(newDy);
         rawUserInfoMap[newDy.uid] = {
           uid: newDy.uid,
-          nick_name: dy.nickname,
+          nickname: dy.nickname,
           avatar: dy.headImgUrl,
           follow_count: 0,
           follow_me: false,
@@ -124,6 +131,8 @@ export default {
       }
 
       const { map, list } = arrToStrMap(rawTimeline);
+      // min timeout is 1000ms
+      yield delayer;
       yield put({
         type: 'fetchTimelineOk',
         payload: {
@@ -134,9 +143,6 @@ export default {
           hasMore: data.hasMore,
         },
       });
-
-      // min timeout is 1000ms
-      yield delayer;
       yield put({ type: 'spinOk', payload: { refresh: payload.refresh, spinning: false } });
     },
 
@@ -149,6 +155,22 @@ export default {
       if (!data) {
         yield put({ type: 'changeLikeOk', payload: { id: payload.dId, like: !payload.isLike } });
       }
+    },
+
+    *fetchArticle({ payload }: { payload: { aid: Aid } }, { call, put, select }: EffectsCommandMap) {
+      const data: DynamicDetailResult = yield call(getDynamicsDetail, payload.aid);
+      const article = {
+        key: '' + data.id,
+        aid: '' + data.id,
+        content: format(data.content),
+        comment_count: data.commentNum,
+        forward_count: 0,
+        like_count: data.likeNum,
+        is_like: data.isLike,
+        pics: data.img,
+        created_at: data.rawPubTime,
+      }
+      yield put({ type: 'fetchArticleOk', payload: article })
     },
   },
   subscriptions: {

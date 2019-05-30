@@ -1,16 +1,16 @@
 import React from 'react';
-import { ListItem, Left, Body, Thumbnail, View, Right, Text, ActionSheet } from "native-base";
+import { ListItem, Left, Body, View, Right, Text, ActionSheet } from "native-base";
 import { Image } from "react-native-expo-image-cache";
 import LightBox from 'react-native-lightbox';
 import { TouchableOpacity, Text as RNText } from 'react-native';
-
 import styles from './style';
 import Colors from '../../constants/Colors';
-import { FeedListItemProps } from './types';
-import ActionBar from './action-bar';
-import { BtnLike, Icon } from '../widget';
+import { FeedCardProps } from './types';
+import { Icon, Avatar } from '../widget';
+import { CardActionBar } from './card-action-bar';
+import { formatTime } from '../../utils/time';
 
-export class FeedListItem extends React.Component<FeedListItemProps> {
+export class FeedCard extends React.Component<FeedCardProps> {
   static ACTION_BAR_ICON_SIZE = 18;
   static FORWARD_ACTION_SHEET = ["转推", "带评论转推", "取消"];
   static SHARE_ACTION_SHEET = [
@@ -20,7 +20,7 @@ export class FeedListItem extends React.Component<FeedListItemProps> {
     "取消",
   ];
 
-  shouldComponentUpdate(nextProps: FeedListItemProps) {
+  shouldComponentUpdate(nextProps: FeedCardProps) {
     return (
       this.props.timeline !== nextProps.timeline ||
       this.props.userInfo !== nextProps.userInfo
@@ -33,15 +33,15 @@ export class FeedListItem extends React.Component<FeedListItemProps> {
 
   onForward = () => {
     ActionSheet.show({
-      options: FeedListItem.FORWARD_ACTION_SHEET,
-      cancelButtonIndex: FeedListItem.FORWARD_ACTION_SHEET.length - 1,
+      options: FeedCard.FORWARD_ACTION_SHEET,
+      cancelButtonIndex: FeedCard.FORWARD_ACTION_SHEET.length - 1,
     }, () => {});
   };
 
   onShare = () => {
     ActionSheet.show({
-      options: FeedListItem.SHARE_ACTION_SHEET,
-      cancelButtonIndex: FeedListItem.SHARE_ACTION_SHEET.length - 1,
+      options: FeedCard.SHARE_ACTION_SHEET,
+      cancelButtonIndex: FeedCard.SHARE_ACTION_SHEET.length - 1,
     }, () => {});
   };
 
@@ -49,23 +49,16 @@ export class FeedListItem extends React.Component<FeedListItemProps> {
     this.props.onLike(this.props.timeline.key, like);
   };
 
-  goToPerson = () => {
-    this.props.navigation.navigate("person", {
-      userInfo: this.props.userInfo,
-      uid: this.props.timeline.uid,
-    });
+  onAvatarPress = () => {
+    this.props.onAvatarPress(this.props.timeline, this.props.userInfo);
   }
 
-  goToArticle = () => {
-    this.props.navigation.navigate("article", {
-      uid: this.props.timeline.uid,
-      aid: this.props.timeline.key,
-      info: this.props.timeline,
-    });
+  onCardPress = () => {
+    this.props.onCardPress(this.props.timeline, this.props.userInfo);
   };
 
   onMoreAction = () => {
-    const who = `@${this.props.userInfo.nick_name}`;
+    const who = `@${this.props.userInfo.nickname}`;
     const BUTTONS = [
       "添加推文到瞬间中",
       "我不喜欢这条推文",
@@ -96,15 +89,13 @@ export class FeedListItem extends React.Component<FeedListItemProps> {
 
   renderAvatar() {
     return (
-      <TouchableOpacity onPress={this.goToPerson}>
-        <Thumbnail source={{ uri: this.props.userInfo.avatar }} />
-      </TouchableOpacity>
+      <Avatar uri={this.props.userInfo.avatar} onPress={this.onAvatarPress} size={40} />
     )
   }
 
   renderPics() {
     const { timeline } = this.props;
-    if (timeline.pics.length) {
+    if (timeline.pics && timeline.pics.length) {
       return (
         <LightBox
           underlayColor="transparent" /*renderContent={renderCarousel}*/
@@ -118,53 +109,39 @@ export class FeedListItem extends React.Component<FeedListItemProps> {
   renderActionBar() {
     const { timeline } = this.props;
     return (
-      <ActionBar>
-        <ActionBar.Icon
-          iconName="comment"
-          iconSize={FeedListItem.ACTION_BAR_ICON_SIZE}
-          label={timeline.comment_count}
-        />
-        <ActionBar.Icon
-          onPress={this.onForward}
-          iconName="forward"
-          iconSize={FeedListItem.ACTION_BAR_ICON_SIZE}
-          label={timeline.forward_count}
-        />
-        <BtnLike
-          onPress={this.onLike}
-          initialLike={timeline.is_like}
-          size={FeedListItem.ACTION_BAR_ICON_SIZE}
-          count={timeline.like_count}
-        />
-        <ActionBar.Icon
-          onPress={this.onShare}
-          iconName="upload"
-          iconSize={FeedListItem.ACTION_BAR_ICON_SIZE}
-        />
-      </ActionBar>
+      <CardActionBar
+        iconSize={FeedCard.ACTION_BAR_ICON_SIZE}
+        commentCount={timeline.comment_count}
+        forwardCount={timeline.forward_count}
+        likeCount={timeline.like_count}
+        initialLike={timeline.is_like}
+        onShare={this.onShare}
+        onLike={this.onLike}
+        onForward={this.onForward}
+        onComment={() => {}}
+      />
     )
   }
 
   render() {
     const { timeline, userInfo } = this.props;
+    const createdAt = formatTime(timeline.created_at);
     return (
-      <ListItem style={styles.listItem} onPress={this.goToArticle} key={timeline.key} avatar>
+      <ListItem style={styles.listItem} onPress={this.onCardPress} key={timeline.key} avatar>
         <Left>
           {this.renderAvatar()}
         </Left>
         <Body style={styles.body as any}>
           <View style={styles.titleWrap}>
-            <RNText style={styles.title} onPress={this.goToPerson}>{userInfo.nick_name}</RNText>
+            <RNText style={styles.title} onPress={this.onAvatarPress}>{userInfo.nickname}</RNText>
             <Icon name="sign" size={17} color={Colors.tintColor} />
-            <RNText style={styles.subTitle}>@{userInfo.nick_name}</RNText>
-            <RNText style={styles.dot}>·</RNText>
-            <RNText style={styles.time}>{timeline.created_at}</RNText>
+            <RNText style={[styles.subTitle, { marginLeft: 5 }]}>@{userInfo.nickname} · {createdAt}</RNText>
             <Right>
               {this.renderMoreBtn()}
             </Right>
           </View>
           <Text note style={styles.richText}>
-            {timeline.jsxText}
+            {timeline.brief}
           </Text>
           {this.renderPics()}
           {this.renderActionBar()}

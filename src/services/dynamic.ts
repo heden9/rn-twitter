@@ -1,4 +1,5 @@
 import request from "../utils/request";
+import { Aid } from "../types";
 
 export interface Dynamic {
   id: number,
@@ -8,7 +9,18 @@ export interface Dynamic {
   brief: string,
   isWhole: number,
   img: { id: string, url: string }[],
-  pubTime: string,
+  rawPubTime: number,
+  commentNum: number,
+  isLike: boolean,
+  likeNum: number
+}
+export interface DynamicDetailResult {
+  id: number,
+  headImgUrl: string,
+  nickname: string,
+  content: string,
+  img: { id: string, url: string }[],
+  rawPubTime: number,
   commentNum: number,
   isLike: boolean,
   likeNum: number
@@ -41,5 +53,11 @@ export function postDynamics(content: string, img = []) {
       content,
       img,
     },
+  });
+}
+
+export function getDynamicsDetail(id: Aid): Promise<DynamicDetailResult> {
+  return request(`/dynamics/${id}`, {
+    method: 'GET',
   });
 }

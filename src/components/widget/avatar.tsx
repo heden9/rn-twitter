@@ -13,11 +13,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Avatar: React.SFC<AvatarProps> = ({ onPress = () => {}, width = 30, style = {}, uri }) => {
+export const Avatar: React.SFC<AvatarProps> = ({ onPress = () => {}, size = 30, style = {}, uri }) => {
   return (
-    <TouchableOpacity style={[styles.button, { borderRadius: width / 2, width, height: width }, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, { borderRadius: size / 2, width: size, height: size }, style]} onPress={onPress}>
       <Image
-        style={[styles.image, { width, height: width }]}
+        style={[styles.image, { size, height: size }]}
         uri={uri}
       />
     </TouchableOpacity>
